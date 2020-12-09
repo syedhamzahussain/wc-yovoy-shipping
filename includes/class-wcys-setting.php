@@ -35,24 +35,8 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 				add_action( 'woocommerce_settings_tabs_' . self::$settings_tab , array( $this, 'wcys_tab_settings' ) );
 				add_action( 'woocommerce_update_options_'. self::$settings_tab, array( $this, 'wcys_update_settings' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'wcys_custom_script' ) );
-				add_action( 'wp_ajax_wcys_save_lat_long', array( $this, 'wcys_save_lat_long' ) );
-
-				//add shipping method
-				add_action( 'woocommerce_shipping_init', array( $this, 'wcys_shipping_int' ) );
-				add_action( 'woocommerce_shipping_methods', array( $this, 'wcys_shipping_method' ) );
-				
+				add_action( 'wp_ajax_wcys_save_lat_long', array( $this, 'wcys_save_lat_long' ) );				
 			}
-		}
-
-		public function wcys_shipping_method( $methods ) {
-        	$methods['wcys_shipping'] = 'WCYS_Shipping';
-			//echo "<pre>";print_r($methods);die();
-        	return $methods;
-    	}
-
-		public function wcys_shipping_int(){
-			//die(WCYS_PLUGIN_URL.'includes/class-wcys-shipping-method.php');
-			include_once( WCYS_PLUGIN_DIR.'/includes/class-wcys-shipping-method.php' );
 		}
 
 		public function wcys_save_lat_long(){

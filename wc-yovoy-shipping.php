@@ -87,6 +87,6 @@ if ( in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) {
 	 * Include dependencies
 	 */
 	include_once WCYS_PLUGIN_DIR . '/includes/class-wcys-setting.php';
-	//include_once wcys_PLUGIN_DIR . '/includes/class-wcys-front.php';
-	// End If.
+	include_once WCYS_PLUGIN_DIR . '/includes/class-wcys-shipping-method.php';
+
 }
