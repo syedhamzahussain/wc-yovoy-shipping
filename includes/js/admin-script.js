@@ -11,7 +11,7 @@ function getAddressDetails(){
     //window.long = place.geometry.location.lng();
     //console.log(geolocation)
     var data = {
-      'action': 'wcys_save_lat_long',
+      'action': ajax_object.ajax_action,
       'lat' : place.geometry.location.lat(),
       'long' : place.geometry.location.lng(),
     };
@@ -25,6 +25,10 @@ function getAddressDetails(){
 
 }
 
+
+jQuery( document ).ready( function(){
+  jQuery("#wcys_vehicle").select2();
+})
 jQuery( document ).on(
   "focus",
   "#wcys_google_address",

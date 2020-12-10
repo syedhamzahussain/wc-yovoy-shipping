@@ -63,15 +63,13 @@ function WCYS_Shipping_Method() {
 			}
 
 			public function calculate_shipping( $package = array() ) {
-
 				$rate = array(
 					'id'    => $this->id,
 					'label' => $this->title,
-					'cost'  => 10,
+					'cost'  => 0,
 				);
 
 				$this->add_rate( $rate, $package );
-
 			}
 		}
 	}
@@ -80,7 +78,7 @@ function WCYS_Shipping_Method() {
 	add_action( 'woocommerce_shipping_init', 'WCYS_Shipping_Method' );
 
 function wcys_add_my_shipping_method( $methods ) {
-	$methods[] = 'wcys_shipping';
+	$methods[ 'wcys_shipping' ] = 'wcys_shipping';
 	return $methods;
 }
 

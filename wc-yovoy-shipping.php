@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: YoVoy Shipping
+ * Plugin Name: YoVoy
  *
  * @package WooCommerce-YoVoy-Shipping
  *
@@ -88,6 +88,7 @@ if ( in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) {
 	 * Include dependencies
 	 */
 	include_once WCYS_PLUGIN_DIR . '/includes/class-wcys-setting.php';
+	include_once WCYS_PLUGIN_DIR . '/includes/class-wcys-customer-checkout.php';
 	include_once WCYS_PLUGIN_DIR . '/includes/class-wcys-shipping-method.php';
 
 }
