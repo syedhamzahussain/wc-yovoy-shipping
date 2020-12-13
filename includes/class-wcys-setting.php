@@ -40,9 +40,9 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 		}
 
 		public function wcys_save_lat_long() {
-			if ( isset( $_POST['lat'] ) && isset( $_POST['long'] ) ) {
-				update_option( 'wcys_lat', $_POST['lat'] );
-				update_option( 'wcys_long', $_POST['long'] );
+			if ( isset( $_POST['wcys_lat'] ) && isset( $_POST['wcys_long'] ) ) {
+				update_option( 'wcys_pickup_latitude', $_POST['wcys_lat'] );
+				update_option( 'wcys_pickup_longitude', $_POST['wcys_long'] );
 				return wp_send_json( array( 'status' => 'success' ) );
 				wp_die();
 			}

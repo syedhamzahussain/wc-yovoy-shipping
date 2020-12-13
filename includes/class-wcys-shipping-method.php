@@ -66,7 +66,7 @@ function WCYS_Shipping_Method() {
 				$rate = array(
 					'id'    => $this->id,
 					'label' => $this->title,
-					'cost'  => 10.99,
+					'cost'  => 0,
 				);
 
 				$this->add_rate( $rate, $package );

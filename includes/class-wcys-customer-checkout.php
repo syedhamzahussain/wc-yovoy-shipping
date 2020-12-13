@@ -30,19 +30,46 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		 */
 		public function __construct() {
 
-			if (! is_admin() ) {
-				add_action( 'wp_enqueue_scripts', array( $this, 'wcys_custom_script' ) );
-				add_filter( 'woocommerce_after_shipping_rate', array( $this, 'wcys_find_all_available_shipping_rates' ), 10, 2 );
-				add_action( 'wp_ajax_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
-				add_action('woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
-				add_action( 'woocommerce_checkout_update_order_meta',array( $this, 'wcys_checkout_field_update_order_meta'), 30, 1 );
+			add_action( 'wp', array( $this, 'init_front' ) );
+			add_action( 'wp_ajax_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
+			add_action( 'wp_ajax_nopriv_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
+			add_filter('woocommerce_package_rates', array( $this,'wcys_shipping_cost_based_on_api'), 10, 1);
 
-			}
+
 		}
+
+		public function init_front(){
+
+			add_action( 'wp_enqueue_scripts', array( $this, 'wcys_custom_script' ) );
+			add_filter( 'woocommerce_after_shipping_rate', array( $this, 'wcys_find_all_available_shipping_rates' ), 10, 2 );
+			add_action('woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
+			add_action( 'woocommerce_checkout_update_order_meta',array( $this, 'wcys_checkout_field_update_order_meta'), 30, 1 );
+			
+		}
+
+		public function wcys_shipping_cost_based_on_api( $rates ) {
+
+		    if ( WC()->session->get('wcys_fare_price' ) ){
+		        foreach ( $rates as $rate_key => $rate_values ) {
+		            // Not for "Free Shipping method" (all others only)
+		            if ( 'wcys_shipping' == $rate_values->method_id ) {
+
+		                // Set the rate cost
+		                $rates[$rate_key]->cost = WC()->session->get('wcys_fare_price' );
+
+		            }
+		        }
+		    }
+		    return $rates;
+		}
+
 
 		public function wcys_checkout_field_update_order_meta(  $order_id ){
 			if( isset( $_POST['wcys_delivery_address'] ) ){
         		update_post_meta( $order_id, '_yovoy_delivery_address', sanitize_text_field( $_POST['wcys_delivery_address'] ) );
+
+        		update_post_meta( $order_id, '_latitude ', WC()->session->get( 'wcys_latitude ' ) );
+        		update_post_meta( $order_id, '_longitude', WC()->session->get( 'wcys_longitude' ) );
         	}
 
         	if( isset( $_POST['wcys_vehicle_type'] ) ){
@@ -74,15 +101,39 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		}
 
 		public function wcys_fare_lat_long(){
-			if ( isset( $_POST['lat'] ) && isset( $_POST['long'] ) ) {
-				$response = wp_remote_get($apiUrl);
+			if ( isset( $_POST['wcys_lat'] ) && isset( $_POST['wcys_long'] ) ) {
+				$url = "https://integrations.yovoyenvios.com/api/delivery/fare-estimate";
+				$response = wp_remote_post( $url, [
+					'body'        => wp_json_encode([
+						'pickup' => [
+							'latitude' => get_option( 'wcys_pickup_latitude' ),
+							'longitude' => get_option( 'wcys_pickup_longitude' ),
+							],
+						'delivery' => [
+							'latitude' => $_POST['wcys_lat'],
+							'longitude' => $_POST['wcys_long'],
+							],
+						'vechicle' => $_POST['wcys_vechicle'],
+						'apiToken' => get_option( 'wcys_api' )	
+						]),
+				    'headers'     => [
+				        'Content-Type' => 'application/json',
+				    ],
+				]);
+
 				$responseBody = wp_remote_retrieve_body( $response );
 				$data = json_decode( $responseBody );
+				if (isset($data->fare)) {
+					WC()->session->set('wcys_fare_price',$data->fare );
+				}
+				
+				WC()->session->set('wcys_delivery_latitude', $_POST['wcys_lat'] );
+				WC()->session->set('wcys_delivery_longitude', $_POST['wcys_long'] );
+				WC()->session->set('wcys_vechicle', $_POST['wcys_vechicle'] );
 				return wp_send_json( array( 'status' => 'success', 'data' => $data) );
-				wp_die();
-				//$result = json_decode( $responseBody );
 				
 			}
+			wp_die();
 		}
 
 		public function wcys_find_all_available_shipping_rates( $method, $index ) {
@@ -127,14 +178,14 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			        'placeholder'   => 'Enter Delivery Address',
 			    ), WC()->checkout->get_value( 'wcys_delivery_address' ));
 
-			    woocommerce_form_field( 'wcys_vehicle_type', array(
+			    woocommerce_form_field( 'wcys_vehicle', array(
 			    'type'          => 'select',
 			    'class'         => array('form-row-last'),
 			    'label'         => __('Vehicle Type'),
 			    'required'    => true,
 			    'placeholder'       => __('- Select Vehicle -'),
 			    'options'     => $vehicle 
-			    ), WC()->checkout->get_value( 'wcys_vehicle_type' ));
+			    ), WC()->checkout->get_value( 'wcys_vehicle' ));
 
 			   	woocommerce_form_field( 'wcys_delivery_type', array(
 					'type' => 'radio',

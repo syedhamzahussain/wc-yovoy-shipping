@@ -12,8 +12,9 @@ function getAddressDetails(){
     //console.log(geolocation)
     var data = {
       'action': ajax_object.ajax_action,
-      'lat' : place.geometry.location.lat(),
-      'long' : place.geometry.location.lng(),
+      'wcys_lat' : place.geometry.location.lat(),
+      'wcys_long' : place.geometry.location.lng(),
+      'wcys_vehicle' : jQuery("#wcys_vehicle").val()
     };
     jQuery.post(
       ajax_object.ajax_url,
@@ -28,7 +29,7 @@ function getAddressDetails(){
 
 jQuery( document ).ready( function(){
   jQuery("#wcys_vehicle").select2();
-})
+
 jQuery( document ).on(
   "focus",
   "#wcys_google_address",
@@ -50,3 +51,5 @@ jQuery( document ).on(
 
   }
 )
+
+})
