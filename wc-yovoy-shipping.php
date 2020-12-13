@@ -5,7 +5,7 @@
  * @package WooCommerce-YoVoy-Shipping
  *
  * Description: Woocommerce YoVoy Shipping Integration.
- * Version: 1.1.1.3
+ * Version: 1.1.1.4
  * Text Domain: wcys
  * Domain Path: /languages
  * Woo: 4894867:79e6b5c04cbd650dabe5a47bcbd0d82c

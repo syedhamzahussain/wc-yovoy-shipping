@@ -78,7 +78,7 @@ function WCYS_Shipping_Method() {
 	add_action( 'woocommerce_shipping_init', 'WCYS_Shipping_Method' );
 
 function wcys_add_my_shipping_method( $methods ) {
-	$methods[ 'wcys_shipping' ] = 'wcys_shipping';
+	$methods['wcys_shipping'] = 'wcys_shipping';
 
 	return $methods;
 }
