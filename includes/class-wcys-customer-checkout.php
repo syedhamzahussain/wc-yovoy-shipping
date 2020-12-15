@@ -54,7 +54,9 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					if ( 'wcys_shipping' == $rate_values->method_id ) {
 
 						// Set the rate cost
-						$rates[ $rate_key ]->cost = WC()->session->get( 'wcys_fare_price' );
+						// if(WC()->session->get( 'wcys_fare_price' ) > 0){
+							$rates[ $rate_key ]->cost = WC()->session->get( 'wcys_fare_price' );
+						// }
 
 					}
 				}
@@ -125,8 +127,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				$responseBody = wp_remote_retrieve_body( $response );
 				$data         = json_decode( $responseBody );
+
 				if ( isset( $data->fare ) ) {
 					WC()->session->set( 'wcys_fare_price', $data->fare );
+					$cost = wc_price( $data->fare );
+
+				} else {
+					$cost = 0;
 				}
 
 				WC()->session->set( 'wcys_delivery_latitude', $_POST['wcys_lat'] );
@@ -136,6 +143,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					array(
 						'status' => 'success',
 						'data'   => $data,
+						'cost'   => $cost,
 					)
 				);
 
