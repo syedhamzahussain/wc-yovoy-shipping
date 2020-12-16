@@ -34,6 +34,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'wp_ajax_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_action( 'wp_ajax_nopriv_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_filter( 'woocommerce_package_rates', array( $this, 'wcys_shipping_cost_based_on_api' ), 10, 1 );
+			// add_action( 'template_redirect',array( $this, 'wcys_set_data' ),10 );
 
 		}
 
@@ -46,6 +47,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 10, 1 );
 
 		}
+
+		// public function wcys_set_data(){
+		// 	if( isset( $_POST['wcys_delivery_address'] ) ){
+		// 		WC()->session->set( "wcys_delivery_address", $_POST['wcys_delivery_address'] );
+		// 	}
+
+		// }
 
 		public function wcys_shipping_thankyou( $order_id ) {
 			$order = wc_get_order( $order_id );
@@ -334,12 +342,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			wp_enqueue_script( 'wcys-select2-js', WCYS_PLUGIN_URL . 'includes/js/select2.full.min.js', array( 'jquery' ), true );
 			wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/script.js', array( 'jquery' ), '1.0' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
+
 			wp_localize_script(
 				'wcys-script',
 				'ajax_object',
 				array(
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
-					// 'ajax_action' => 'wcys_fare_lat_long',
+					'wcys_address' => WC()->session->get( "wcys_delivery_address"),
 				)
 			);
 
