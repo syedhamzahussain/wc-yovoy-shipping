@@ -31,9 +31,6 @@ function getAddressDetails(){
           }
           
 
-          jQuery('[name="update_cart"]').removeAttr('disabled');
-          jQuery('[name="update_cart"]').click();
-
         }
 
       }
