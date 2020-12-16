@@ -11,30 +11,14 @@ function getAddressDetails(){
     //window.long = place.geometry.location.lng();
     //console.log(geolocation)
     var data = {
-      'action': ajax_object.ajax_action,
+      'action': 'wcys_save_lat_long',
       'wcys_lat' : place.geometry.location.lat(),
-      'wcys_long' : place.geometry.location.lng(),
-      'wcys_vehicle' : jQuery("#wcys_vehicle").val()
+      'wcys_long' : place.geometry.location.lng()
     };
     jQuery.post(
       ajax_object.ajax_url,
       data,
       function (response) {
-
-        if(response.cost != 0){
-
-          jQuery('body').trigger('update_checkout', { update_shipping_method: true });
-          jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').html(response.cost);
-         
-          if(jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').lenght == undefined){
-            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
-          }
-          
-
-          jQuery('[name="update_cart"]').removeAttr('disabled');
-          jQuery('[name="update_cart"]').click();
-
-        }
 
       }
     );

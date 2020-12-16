@@ -54,13 +54,13 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 				wp_enqueue_script( 'wcys-autocomplete-polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default', array( 'jquery' ), '2.1' );
 				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=places&v=weekly', array( 'jquery' ), '2.1.3' );
 				wp_enqueue_script( 'wcys-select2-js', WCYS_PLUGIN_URL . 'includes/js/select2.full.min.js', array( 'jquery' ), true );
-				wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/admin-script.js', array( 'jquery' ), '1.0' );
+				wp_enqueue_script( 'wcys-admin-script', WCYS_PLUGIN_URL . 'includes/js/admin-script.js', array( 'jquery' ), '1.0' );
 				wp_localize_script(
-					'wcys-script',
+					'wcys-admin-script',
 					'ajax_object',
 					array(
-						'ajax_url'    => admin_url( 'admin-ajax.php' ),
-						'ajax_action' => 'wcys_save_lat_long',
+						'ajax_url' => admin_url( 'admin-ajax.php' ),
+						// 'ajax_action' => 'wcys_save_lat_long',
 					)
 				);
 

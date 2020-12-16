@@ -11,24 +11,39 @@ function getAddressDetails(){
     //window.long = place.geometry.location.lng();
     //console.log(geolocation)
     var data = {
-      'action': 'wcys_save_lat_long',
-      'lat' : place.geometry.location.lat(),
-      'long' : place.geometry.location.lng(),
+      'action': 'wcys_fare_lat_long',
+      'wcys_lat' : place.geometry.location.lat(),
+      'wcys_long' : place.geometry.location.lng(),
+      'wcys_vehicle' : jQuery("#wcys_vehicle").val(),
     };
     jQuery.post(
       ajax_object.ajax_url,
       data,
       function (response) {
-        
+
+        if(response.cost != 0){
+
+          jQuery('body').trigger('update_checkout', { update_shipping_method: true });
+          jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').html(response.cost);
+         
+          if(jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').length == undefined){
+            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
+          }
+          
+
+          jQuery('[name="update_cart"]').removeAttr('disabled');
+          jQuery('[name="update_cart"]').click();
+
+        }
+
       }
     );
 
 }
 
-
 jQuery( document ).ready( function(){
   jQuery("#wcys_vehicle").select2();
-})
+
 jQuery( document ).on(
   "focus",
   "#wcys_google_address",
@@ -50,3 +65,5 @@ jQuery( document ).on(
 
   }
 )
+
+})

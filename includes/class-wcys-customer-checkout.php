@@ -43,21 +43,72 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_filter( 'woocommerce_after_shipping_rate', array( $this, 'wcys_find_all_available_shipping_rates' ), 10, 2 );
 			add_action( 'woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'wcys_checkout_field_update_order_meta' ), 30, 1 );
+			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 10, 1 );
 
 		}
 
+		public function wcys_shipping_thankyou( $order_id ) {
+			$order = wc_get_order( $order_id );
+
+			if ( $order->has_shipping_method( 'wcys_shipping' ) && ! WC()->session->get( "order_delivery_api_{$order_id}" ) ) {
+				WC()->session->set( "order_delivery_api_{$order_id}", true );
+				$url  = 'https://integrations.yovoyenvios.com/api/delivery';
+				$body = array(
+					'pickup'   => array(
+						'latitude'  => get_option( 'wcys_pickup_latitude' ),
+						'longitude' => get_option( 'wcys_pickup_longitude' ),
+						'email'     => get_option( 'wcys_email' ),
+						'phone'     => get_option( 'wcys_phone' ),
+						'name'      => get_option( 'wcys_name' ),
+						'notes'     => get_option( 'wcys_notes' ),
+						'reference' => get_option( 'wcys_reference' ),
+						'vehicle'   => 0,
+						'date'      => $order->get_meta( '_yovoy_pickup_date' ),
+					),
+					'delivery' => array(
+						'latitude'  => WC()->session->get( 'wcys_delivery_latitude' ),
+						'longitude' => WC()->session->get( 'wcys_delivery_longitude' ),
+						'email'     => $order->get_billing_email(),
+						'phone'     => $order->get_billing_phone(),
+						'name'      => $order->get_shipping_first_name() ? $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name() : $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
+						'notes'     => 'Additional delivery notes or steps for an agent.',
+						'reference' => $order->get_shipping_address_1() ? $order->get_shipping_address_1() : $order->get_billing_address_1(),
+						// "cashOnDelivery"=> 500,
+						'date'      => $order->get_meta( '_yovoy_delivery_date' ), // "Thu Dec 23 2020 09:00:00 GMT-0600 (Central Standard Time)"
+					),
+					'apiToken' => get_option( 'wcys_api' ),
+				);
+
+				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
+				if ( $data->success ) {
+					update_post_meta( $order_id, 'trackingLink', $data->trackingLink );
+					echo '<strong>Tracking Link:</strong> ' . $data->trackingLink;
+				}
+				return;
+
+			}
+			if ( $order->has_shipping_method( 'wcys_shipping' ) ) {
+				echo '<strong>Tracking Link:</strong> ' . $order->get_meta( 'trackingLink' );
+			}
+
+			return;
+
+		}
 		public function wcys_shipping_cost_based_on_api( $rates ) {
 
 			if ( WC()->session->get( 'wcys_fare_price' ) ) {
 				foreach ( $rates as $rate_key => $rate_values ) {
 					// Not for "Free Shipping method" (all others only)
 					if ( 'wcys_shipping' == $rate_values->method_id ) {
+						if ( empty( get_option( 'wcys_google_api' ) ) || empty( get_option( 'wcys_api' ) ) || empty( get_option( 'wcys_google_address' ) ) || empty( get_option( 'wcys_pickup_latitude' ) ) || empty( get_option( 'wcys_pickup_longitude' ) ) ) {
+							unset( $rates[ $rate_key ] );
+							break;
+						}
 
 						// Set the rate cost
-						// if(WC()->session->get( 'wcys_fare_price' ) > 0){
+						if ( WC()->session->get( 'wcys_fare_price' ) > 0 ) {
 							$rates[ $rate_key ]->cost = WC()->session->get( 'wcys_fare_price' );
-						// }
-
+						}
 					}
 				}
 			}
@@ -73,15 +124,21 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				update_post_meta( $order_id, '_longitude', WC()->session->get( 'wcys_longitude' ) );
 			}
 
-			if ( isset( $_POST['wcys_vehicle_type'] ) ) {
-				update_post_meta( $order_id, '_yovoy_vehicle_type', sanitize_text_field( $_POST['wcys_vehicle_type'] ) );
+			if ( isset( $_POST['wcys_vehicle'] ) ) {
+				update_post_meta( $order_id, '_yovoy_vehicle', sanitize_text_field( $_POST['wcys_vehicle'] ) );
+
 			}
 
 			if ( isset( $_POST['wcys_delivery_type'] ) ) {
 				if ( 'schedule' == strtolower( $_POST['wcys_delivery_type'] ) ) {
+					$date = $_POST['wcys_deliver_date'];
+					update_post_meta( $order_id, '_yovoy_pickup_date', gmdate( 'D M d Y H:i:s O', strtotime( $date . '-20 minutes' ) ) );
+					update_post_meta( $order_id, '_yovoy_delivery_date', gmdate( 'D M d Y H:i:s O', strtotime( $date ) ) );
 					update_post_meta( $order_id, '_yovoy_delivery_type', sanitize_text_field( $_POST['wcys_delivery_type'] ) );
 				} else {
-					update_post_meta( $order_id, '_yovoy_delivery_type', date( 'Y/m/d H:i:s', strtotime( '+30 minutes' ) ) );
+					update_post_meta( $order_id, '_yovoy_pickup_date', gmdate( 'D M d Y H:i:s O', strtotime( '+20 minutes' ) ) );
+					update_post_meta( $order_id, '_yovoy_delivery_date', gmdate( 'D M d Y H:i:s O', strtotime( '+30 minutes' ) ) );
+					update_post_meta( $order_id, '_yovoy_delivery_type', sanitize_text_field( $_POST['wcys_delivery_type'] ) );
 				}
 			}
 
@@ -101,32 +158,20 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 		public function wcys_fare_lat_long() {
 			if ( isset( $_POST['wcys_lat'] ) && isset( $_POST['wcys_long'] ) ) {
-				$url      = 'https://integrations.yovoyenvios.com/api/delivery/fare-estimate';
-				$response = wp_remote_post(
-					$url,
-					array(
-						'body'    => wp_json_encode(
-							array(
-								'pickup'   => array(
-									'latitude'  => get_option( 'wcys_pickup_latitude' ),
-									'longitude' => get_option( 'wcys_pickup_longitude' ),
-								),
-								'delivery' => array(
-									'latitude'  => $_POST['wcys_lat'],
-									'longitude' => $_POST['wcys_long'],
-								),
-								'vechicle' => $_POST['wcys_vechicle'],
-								'apiToken' => get_option( 'wcys_api' ),
-							)
-						),
-						'headers' => array(
-							'Content-Type' => 'application/json',
-						),
-					)
+				$url  = 'https://integrations.yovoyenvios.com/api/delivery/fare-estimate';
+				$body = array(
+					'pickup'   => array(
+						'latitude'  => get_option( 'wcys_pickup_latitude' ),
+						'longitude' => get_option( 'wcys_pickup_longitude' ),
+					),
+					'delivery' => array(
+						'latitude'  => $_POST['wcys_lat'],
+						'longitude' => $_POST['wcys_long'],
+					),
+					'vechicle' => $_POST['wcys_vechicle'],
+					'apiToken' => get_option( 'wcys_api' ),
 				);
-
-				$responseBody = wp_remote_retrieve_body( $response );
-				$data         = json_decode( $responseBody );
+				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
 
 				if ( isset( $data->fare ) ) {
 					WC()->session->set( 'wcys_fare_price', $data->fare );
@@ -151,10 +196,24 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			wp_die();
 		}
 
+		private function wcys_send_post_request( $url, $body ) {
+			$response = wp_remote_post(
+				$url,
+				array(
+					'body'    => $body,
+					'headers' => array(
+						'Content-Type' => 'application/json',
+					),
+				)
+			);
+
+			$responseBody = wp_remote_retrieve_body( $response );
+			return json_decode( $responseBody );
+		}
+
 		public function wcys_find_all_available_shipping_rates( $method, $index ) {
 			if ( is_checkout() || is_cart() ) :
 				// Only on checkout page
-
 				$customer_carrier_method = 'wcys_shipping';
 
 				if ( $method->id != $customer_carrier_method ) {
@@ -273,14 +332,14 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=places&v=weekly', array( 'jquery' ), '2.1.3' );
 			}
 			wp_enqueue_script( 'wcys-select2-js', WCYS_PLUGIN_URL . 'includes/js/select2.full.min.js', array( 'jquery' ), true );
-			wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/admin-script.js', array( 'jquery' ), '1.0' );
+			wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/script.js', array( 'jquery' ), '1.0' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_localize_script(
 				'wcys-script',
 				'ajax_object',
 				array(
-					'ajax_url'    => admin_url( 'admin-ajax.php' ),
-					'ajax_action' => 'wcys_fare_lat_long',
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					// 'ajax_action' => 'wcys_fare_lat_long',
 				)
 			);
 
