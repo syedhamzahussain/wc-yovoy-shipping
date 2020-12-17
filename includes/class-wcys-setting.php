@@ -93,6 +93,10 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 		}
 
 		public function get_settings() {
+			$readonly = "";
+			if(! get_option('wcys_google_api') ){
+				$readonly = array('disabled' => 'disabled');
+			}
 			$settings = array(
 				'section_title'          => array(
 					'name' => __( 'Set Pick-up Location & Api key', 'wcys' ),
@@ -105,6 +109,7 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					'type'       => 'checkbox',
 					'id'         => self::$settings_tab . '_manual_confirm',
 					'is_checked' => get_option( self::$settings_tab . '_manual_confirm' ),
+					'custom_attributes' => $readonly
 				),
 				'section_google_api'     => array(
 					'name'     => __( 'Google Map Api', 'wcys' ),
@@ -117,36 +122,42 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					'type'     => 'text',
 					'desc_tip' => 'Set api token here',
 					'id'       => self::$settings_tab . '_api',
+					'custom_attributes' => $readonly
 				),
 				'section_name'           => array(
 					'name'     => __( 'Name', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'Name of the dispatcher',
 					'id'       => self::$settings_tab . '_name',
+					'custom_attributes' => $readonly
 				),
 				'section_google_address' => array(
 					'name'     => __( 'Pick-up Address', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'Pick-up Address to get lattitude and longitude',
 					'id'       => self::$settings_tab . '_google_address',
+					'custom_attributes' => $readonly
 				),
 				'section_reference'      => array(
 					'name'     => __( 'Reference', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'References of the address to facilitate the agent locating the pick up point.',
 					'id'       => self::$settings_tab . '_reference',
+					'custom_attributes' => $readonly
 				),
 				'section_email'          => array(
 					'name'     => __( 'Email', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'Email of the dispatcher',
 					'id'       => self::$settings_tab . '_email',
+					'custom_attributes' => $readonly
 				),
 				'section_phone'          => array(
 					'name'     => __( 'Phone', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'Phone number of the dispatcher',
 					'id'       => self::$settings_tab . '_phone',
+					'custom_attributes' => $readonly
 				),
 				'section_vehicle'        => array(
 					'name'     => __( 'Vehicle Types ', 'wcys' ),
@@ -159,6 +170,7 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					),
 					'desc_tip' => 'Add vehcile to show on checkout',
 					'id'       => self::$settings_tab . '_vehicle',
+					'custom_attributes' => $readonly
 				),
 
 				'section_end'            => array(

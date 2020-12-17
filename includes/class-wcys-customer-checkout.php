@@ -34,7 +34,6 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'wp_ajax_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_action( 'wp_ajax_nopriv_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_filter( 'woocommerce_package_rates', array( $this, 'wcys_shipping_cost_based_on_api' ), 10, 1 );
-			// add_action( 'template_redirect',array( $this, 'wcys_set_data' ),10 );
 
 		}
 
@@ -47,13 +46,6 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 10, 1 );
 
 		}
-
-		// public function wcys_set_data(){
-		// 	if( isset( $_POST['wcys_delivery_address'] ) ){
-		// 		WC()->session->set( "wcys_delivery_address", $_POST['wcys_delivery_address'] );
-		// 	}
-
-		// }
 
 		public function wcys_shipping_thankyou( $order_id ) {
 			$order = wc_get_order( $order_id );
@@ -191,6 +183,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				WC()->session->set( 'wcys_delivery_latitude', $_POST['wcys_lat'] );
 				WC()->session->set( 'wcys_delivery_longitude', $_POST['wcys_long'] );
+				WC()->session->set( 'wcys_google_address', $_POST['wcys_google_address'] );
 				WC()->session->set( 'wcys_vechicle', $_POST['wcys_vechicle'] );
 				return wp_send_json(
 					array(
@@ -262,6 +255,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							'label'       => 'Delivery Address:',
 							'required'    => true,
 							'placeholder' => 'Enter Delivery Address',
+							'default'	=> WC()->session->get( 'wcys_google_address')
 						),
 						WC()->checkout->get_value( 'wcys_delivery_address' )
 					);

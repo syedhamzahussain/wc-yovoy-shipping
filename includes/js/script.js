@@ -15,6 +15,7 @@ function getAddressDetails(){
       'wcys_lat' : place.geometry.location.lat(),
       'wcys_long' : place.geometry.location.lng(),
       'wcys_vehicle' : jQuery("#wcys_vehicle").val(),
+      'wcys_google_address' : jQuery('#wcys_google_address').val(),
     };
     jQuery.post(
       ajax_object.ajax_url,
