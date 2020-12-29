@@ -255,10 +255,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							'label'       => 'Delivery Address:',
 							'required'    => true,
 							'placeholder' => 'Enter Delivery Address',
+							'custom_attributes' => [ 'data-lat' => WC()->session->get( 'wcys_delivery_latitude') ?WC()->session->get( 'wcys_delivery_latitude') : 15.199999, 'data-long' => WC()->session->get( 'wcys_delivery_longitude') ? WC()->session->get( 'wcys_delivery_longitude') : -86.241905 ],
 							'default'	=> WC()->session->get( 'wcys_google_address')
 						),
 						WC()->checkout->get_value( 'wcys_delivery_address' )
 					);
+
+					echo '<div id="map-canvas" style="width:300px; height: 300px;"></div>';
 
 					woocommerce_form_field(
 						'wcys_vehicle',
@@ -304,7 +307,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					echo '</div>';
 					?>
 				<script type="text/javascript">
-					initAutocomplete();
+					initialize();
 					jQuery(".wcys_delivery_type").change(function(){
 						if( jQuery( this ).val() == 'schedule'){
 							jQuery( ".wcys_deliver_date" ).attr('type','text');
@@ -331,7 +334,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 			if ( is_checkout() || is_cart() ) {
 				wp_enqueue_script( 'wcys-autocomplete-polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default', array( 'jquery' ), '2.1' );
-				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=places&v=weekly', array( 'jquery' ), '2.1.3' );
+				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=geometry,places&v=weekly', array( 'jquery' ), '2.1.3' );
 			}
 			wp_enqueue_script( 'wcys-select2-js', WCYS_PLUGIN_URL . 'includes/js/select2.full.min.js', array( 'jquery' ), true );
 			wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/script.js', array( 'jquery' ), '1.0' );
@@ -347,6 +350,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			);
 
 			 wp_enqueue_style( 'jquery-ui-datepicker-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
+			wp_enqueue_style( 'wcys-custom-css', WCYS_PLUGIN_URL . 'includes/css/custom.css' ); 
 			wp_enqueue_style( 'wcys-select2-css', WCYS_PLUGIN_URL . 'includes/css/select2.min.css' );
 		}
 

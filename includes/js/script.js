@@ -1,27 +1,125 @@
-google.maps.event.addDomListener(window, 'load', initAutocomplete);
-var autocomplete;
-function initAutocomplete(){
-    autocomplete = new google.maps.places.Autocomplete(
-    document.getElementById('wcys_google_address'), {types: ['geocode']});
-    autocomplete.addListener('place_changed', getAddressDetails);
+jQuery( document ).ready( function(){
+  jQuery("#wcys_vehicle").select2();
+})
+
+var map;
+var marker;
+var geocoder;
+var infowindow = new google.maps.InfoWindow({
+  size: new google.maps.Size(150, 50)
+});
+
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+  var lati = parseFloat( jQuery("#wcys_google_address").attr('data-lat') );
+  var longi = parseFloat( jQuery("#wcys_google_address").attr('data-long') );
+
+  var mapOptions = {
+    zoom: 8,
+    center: { lat: lati, lng: longi }
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+    mapOptions);
+  
+  google.maps.event.addListener(map, 'click', function() {
+    infowindow.close();
+  });   
+  // Get GEOLOCATION
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+     // var pos = new google.maps.LatLng(position.coords.latitude,
+      var pos = new google.maps.LatLng(lati,longi);
+
+      map.setCenter(pos);
+      marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        draggable: true
+      });
+      google.maps.event.addListener(marker, 'dragend', function(evt){
+        geocodePosition(marker.getPosition(), evt.latLng.lat(), evt.latLng.lng() );
+           
+      })
+    });
+  }
+  // get places auto-complete when user type in location-text-box
+  var input = (document.getElementById('wcys_google_address'));
+
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  var infowindow = new google.maps.InfoWindow();
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker.setVisible(true);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(8); // Why 17? Because it looks good.
+    }
+   
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+  
+    saveLatLong( place.geometry.location.lat(), place.geometry.location.lng(), jQuery('#wcys_google_address').val() ); 
+  
+  });
+
 }
-function getAddressDetails(){
-    var place = autocomplete.getPlace();   
-    //window.lat = place.geometry.location.lat();
-    //window.long = place.geometry.location.lng();
-    //console.log(geolocation)
-    var data = {
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+function geocodePosition(pos, lat, lng) {
+  check = false;
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      check = responses[0].formatted_address
+      marker.formatted_address = responses[0].formatted_address;
+    } else {
+      marker.formatted_address = 'Cannot determine address at this location.';
+    }
+    //console.log( marker.formatted_address)
+    infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+    infowindow.open(map, marker);
+    
+    if( check ){
+      jQuery("#wcys_google_address").val( check );
+    }
+    saveLatLong( lat, lng, check );
+
+  });
+}
+
+function saveLatLong( lat, lng, check = false ){
+  var data = {
       'action': 'wcys_fare_lat_long',
-      'wcys_lat' : place.geometry.location.lat(),
-      'wcys_long' : place.geometry.location.lng(),
+      'wcys_lat' : lat,
+      'wcys_long' : lng,
       'wcys_vehicle' : jQuery("#wcys_vehicle").val(),
-      'wcys_google_address' : jQuery('#wcys_google_address').val(),
+      'wcys_google_address' : check ? check : 0
     };
     jQuery.post(
       ajax_object.ajax_url,
       data,
       function (response) {
-
         if(response.cost != 0){
 
           jQuery('body').trigger('update_checkout', { update_shipping_method: true });
@@ -35,41 +133,6 @@ function getAddressDetails(){
           }
 
         }
-
       }
     );
-
 }
-
-jQuery( document ).ready( function(){
-  jQuery("#wcys_vehicle").select2();
-
-jQuery( document ).on(
-  "focus",
-  "#wcys_google_address",
-  function() {
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        const circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy,
-      });
-        autocomplete.setBounds(circle.getBounds());
-        });
-    }
-
-  }
-)
-  // if(ajax_object.wcys_address != ''){
-  //   console.log(ajax_object.wcys_address);
-  //   jQuery("#wcys_google_address").click();
-  //   jQuery("#wcys_google_address").val(ajax_object.wcys_address);
-  // }
-  
-
-})

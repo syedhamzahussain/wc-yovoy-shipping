@@ -24,6 +24,7 @@ function WCYS_Shipping_Method() {
 					'IT',   // Italy
 					'ES', // Spain
 					'HR',  // Croatia
+					'HN',
 				);
 
 				$this->init();

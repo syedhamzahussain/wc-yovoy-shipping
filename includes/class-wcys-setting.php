@@ -43,7 +43,10 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 			if ( isset( $_POST['wcys_lat'] ) && isset( $_POST['wcys_long'] ) ) {
 				update_option( 'wcys_pickup_latitude', $_POST['wcys_lat'] );
 				update_option( 'wcys_pickup_longitude', $_POST['wcys_long'] );
-				return wp_send_json( array( 'status' => 'success' ) );
+				if( $_POST['wcys_address']){
+					update_option( 'wcys_google_address', $_POST['wcys_google_address'] );
+				}
+				return wp_send_json( array( 'status' => 'success', 'data'=> $_POST ) );
 				wp_die();
 			}
 		}
@@ -52,7 +55,7 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 
 			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'wcys' ) {
 				wp_enqueue_script( 'wcys-autocomplete-polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default', array( 'jquery' ), '2.1' );
-				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=places&v=weekly', array( 'jquery' ), '2.1.3' );
+				wp_enqueue_script( 'wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option( self::$settings_tab . '_google_api' ) . '&libraries=geometry,places&v=weekly', array( 'jquery' ), '2.1.3' );
 				wp_enqueue_script( 'wcys-select2-js', WCYS_PLUGIN_URL . 'includes/js/select2.full.min.js', array( 'jquery' ), true );
 				wp_enqueue_script( 'wcys-admin-script', WCYS_PLUGIN_URL . 'includes/js/admin-script.js', array( 'jquery' ), '1.0' );
 				wp_localize_script(
@@ -64,6 +67,7 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					)
 				);
 
+				wp_enqueue_style( 'wcys-custom-css', WCYS_PLUGIN_URL . 'includes/css/custom.css' );
 				wp_enqueue_style( 'wcys-select2-css', WCYS_PLUGIN_URL . 'includes/css/select2.min.css' );
 			}
 		}
@@ -93,7 +97,8 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 		}
 
 		public function get_settings() {
-			$readonly = "";
+			$readonly = [];
+			
 			if(! get_option('wcys_google_api') ){
 				$readonly = array('disabled' => 'disabled');
 			}
@@ -103,6 +108,7 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					'type' => 'title',
 					'desc' => '',
 					'id'   => self::$settings_tab . '_section_title',
+					//'custom_attributes' =>
 				),
 				'section_manual_confirm' => array(
 					'name'       => __( 'Manual Confirmation', 'wcys' ),
@@ -135,8 +141,9 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					'name'     => __( 'Pick-up Address', 'wcys' ),
 					'type'     => 'text',
 					'desc_tip' => 'Pick-up Address to get lattitude and longitude',
+					'default' => 'Honduras',
 					'id'       => self::$settings_tab . '_google_address',
-					'custom_attributes' => $readonly
+					'custom_attributes' => array_merge(  [ 'data-lat' =>  get_option('wcys_pickup_latitude') ? get_option('wcys_pickup_latitude') : 15.199999, 'data-long' => get_option('wcys_pickup_longitude') ? get_option('wcys_pickup_longitude') : -86.241905 ], $readonly )
 				),
 				'section_reference'      => array(
 					'name'     => __( 'Reference', 'wcys' ),
@@ -172,7 +179,6 @@ if ( ! class_exists( 'WCYS_Settings' ) ) {
 					'id'       => self::$settings_tab . '_vehicle',
 					'custom_attributes' => $readonly
 				),
-
 				'section_end'            => array(
 					'type' => 'sectionend',
 					'id'   => self::$settings_tab . '_section_end',
