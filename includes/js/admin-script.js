@@ -18,14 +18,12 @@ function initialize() {
     zoom: 8,
     center: { lat: lati, lng: longi }
   };
-  jQuery("#wcys_google_address").parent().parent().next().html('<th></th><td style="width:50px;height:300px"><div id="map-canvas"></div></td>');
   map = new google.maps.Map(document.getElementById('map-canvas'),
     mapOptions);
-
-   google.maps.event.addListener(map, 'click', function() {
+  
+  google.maps.event.addListener(map, 'click', function() {
     infowindow.close();
-  });
-    
+  });   
   // Get GEOLOCATION
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -38,13 +36,12 @@ function initialize() {
         map: map,
         draggable: true
       });
-
       google.maps.event.addListener(marker, 'dragend', function(evt){
         geocodePosition(marker.getPosition(), evt.latLng.lat(), evt.latLng.lng() );
            
       })
     });
-  } 
+  }
   // get places auto-complete when user type in location-text-box
   var input = (document.getElementById('wcys_google_address'));
 
@@ -55,7 +52,7 @@ function initialize() {
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     infowindow.close();
-    marker.setVisible(true);
+    marker.setVisible(false);
     var place = autocomplete.getPlace();
     if (!place.geometry) {
       return;
@@ -78,14 +75,15 @@ function initialize() {
         (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
       ].join(' ');
     }
-    
-    saveLatLong( place.geometry.location.lat(), place.geometry.location.lng() );  
-
+  
+    saveLatLong( place.geometry.location.lat(), place.geometry.location.lng(), jQuery('#wcys_google_address').val() ); 
+  
   });
 
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
 
 function geocodePosition(pos, lat, lng) {
   check = false;
@@ -112,16 +110,31 @@ function geocodePosition(pos, lat, lng) {
 
 function saveLatLong( lat, lng, check = false ){
   var data = {
-      'action': 'wcys_save_lat_long',
+      'action': 'wcys_fare_lat_long',
       'wcys_lat' : lat,
       'wcys_long' : lng,
+      'wcys_vehicle' : jQuery("#wcys_vehicle").val(),
       'wcys_google_address' : check ? check : 0
     };
     jQuery.post(
       ajax_object.ajax_url,
       data,
       function (response) {
+        if(response.cost != 0){
 
+          
+          
+         
+          if(jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html() == undefined){
+            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
+          }
+          else{
+            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
+            jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html(response.cost);
+          }
+          jQuery('body').trigger('update_checkout', { update_shipping_method: true });
+
+        }
       }
     );
 }

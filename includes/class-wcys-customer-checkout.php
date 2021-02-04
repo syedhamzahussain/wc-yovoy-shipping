@@ -172,7 +172,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					'apiToken' => get_option( 'wcys_api' ),
 				);
 				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
-
+				
 				if ( isset( $data->fare ) ) {
 					WC()->session->set( 'wcys_fare_price', $data->fare );
 					$cost = wc_price( $data->fare );
@@ -308,8 +308,8 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					?>
 				<script type="text/javascript">
 					initialize();
-					jQuery(".wcys_delivery_type").change(function(){
-						if( jQuery( this ).val() == 'schedule'){
+					jQuery("[name='wcys_delivery_type']").change(function(){
+						if( jQuery( this ).val().toLowerCase() == 'schedule'){
 							jQuery( ".wcys_deliver_date" ).attr('type','text');
 							jQuery('.wcys_deliver_date').datepicker({
 								isRTL: true,

@@ -52,7 +52,7 @@ function initialize() {
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     infowindow.close();
-    marker.setVisible(true);
+    //marker.setVisible(true);
     var place = autocomplete.getPlace();
     if (!place.geometry) {
       return;
@@ -122,15 +122,17 @@ function saveLatLong( lat, lng, check = false ){
       function (response) {
         if(response.cost != 0){
 
-          jQuery('body').trigger('update_checkout', { update_shipping_method: true });
+          
           
          
-          if(jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').html() == undefined){
+          if(jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html() == undefined){
             jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
           }
           else{
-            jQuery('.shipping_method[value="wcys_shipping"]').next().children('.woocommerce-Price-amount').html(response.cost);
+            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': '+response.cost);
+            jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html(response.cost);
           }
+          jQuery('body').trigger('update_checkout', { update_shipping_method: true });
 
         }
       }
