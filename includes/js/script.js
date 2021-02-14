@@ -2,8 +2,9 @@ jQuery(document).ready(function () {
 
     if(ajax_object.chosen_shipping_method == 'wcys_shipping'){
         initialize();
-        jQuery("#wcys_vehicle").select2();
     }
+
+	jQuery("#wcys_vehicle").select2();
 
     jQuery(document.body).on(
             "click",
@@ -13,14 +14,14 @@ jQuery(document).ready(function () {
                         function ()
                         {
                             initialize();
-                        }, 2500);
+                        }, 3000);
 
 
             });
 
 
     jQuery(document.body).on(
-            "change",".shipping_method",
+            "click",".shipping_method",
             function () {
                 setTimeout(
                         function ()
@@ -160,9 +161,14 @@ jQuery(document).ready(function () {
                             jQuery('.shipping_method[value="wcys_shipping"]').next().html('YoVoy Shipping: ' + response.cost);
                         }
 
-                        jQuery("button[name='update_cart'],input[name='update_cart']").removeAttr('disabled');
-                        jQuery("button[name='update_cart'],input[name='update_cart']").click();
-                        jQuery('body').trigger('update_checkout', {update_shipping_method: true});
+						jQuery('.order-total > td').html(response.total_cost);
+						
+						
+//                             jQuery("button[name='update_cart'],input[name='update_cart']").removeAttr('disabled');
+//                         	jQuery("button[name='update_cart'],input[name='update_cart']").click();
+//                        	jQuery('body').trigger('update_checkout', {update_shipping_method: true});
+                        
+                        
 
                     }
                 }

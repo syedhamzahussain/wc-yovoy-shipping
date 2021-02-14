@@ -188,17 +188,22 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                 } else {
                     $cost = 0;
                 }
-
+				
                 WC()->session->set('wcys_delivery_latitude', $_POST['wcys_lat']);
                 WC()->session->set('wcys_delivery_longitude', $_POST['wcys_long']);
                 WC()->session->set('wcys_google_address', $_POST['wcys_google_address']);
                 WC()->session->set('wcys_vechicle', $_POST['wcys_vechicle']);
+
+				global $woocommerce;
+            	$cart = $woocommerce->cart;
+            	$total_cost = $cart->subtotal + $data->fare;
+				
                 return wp_send_json(
                         array(
                             'status' => 'success',
                             'data' => $data,
                             'cost' => $cost,
-                            'without_cost' => $data->fare
+                            'total_cost' => wc_price($total_cost)
                         )
                 );
             }
