@@ -1,7 +1,9 @@
 jQuery(document).ready(function () {
 
-    initialize();
-    jQuery("#wcys_vehicle").select2();
+    if(ajax_object.chosen_shipping_method == 'wcys_shipping'){
+        initialize();
+        jQuery("#wcys_vehicle").select2();
+    }
 
     jQuery(document.body).on(
             "click",
@@ -16,6 +18,20 @@ jQuery(document).ready(function () {
 
             });
 
+
+    jQuery(document.body).on(
+            "change",".shipping_method",
+            function () {
+                setTimeout(
+                        function ()
+                        {
+                            initialize();
+                        }, 1000);
+            });
+
+
+    
+});
 
 
     var map;
@@ -152,5 +168,3 @@ jQuery(document).ready(function () {
                 }
         );
     }
-
-});
