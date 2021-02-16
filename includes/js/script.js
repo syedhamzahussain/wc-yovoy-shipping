@@ -2,7 +2,11 @@ jQuery(document).ready(function () {
 
     if(ajax_object.chosen_shipping_method == 'wcys_shipping'){
         initialize();
+        jQuery('.woocommerce-shipping-fields').hide();
+
     }
+
+    console.log('shipping_method:'+ajax_object.chosen_shipping_method);
 
 	jQuery("#wcys_vehicle").select2();
 
@@ -22,12 +26,19 @@ jQuery(document).ready(function () {
 
     jQuery(document.body).on(
             "click",".shipping_method",
-            function () {
+            function (event) {
+
+
                 setTimeout(
-                        function ()
+                        function ( )
                         {
-                            initialize();
-                        }, 1000);
+                            if( jQuery('.shipping_method:checked:checked').val() == 'wcys_shipping'){
+                                initialize();
+                                jQuery('.woocommerce-shipping-fields').hide();
+
+                            }
+                            
+                        }, 1500);
             });
 
 
