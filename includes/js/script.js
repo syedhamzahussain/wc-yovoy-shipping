@@ -6,6 +6,18 @@ jQuery(document).ready(function () {
 
     }
 
+    if(jQuery('#wcys_google_address').val() == '0' || jQuery('#wcys_google_address').val() == 0){
+
+        setTimeout(
+                        function ()
+                        {
+                            jQuery('#wcys_google_address').val('Honduras');
+                            //initialize();
+                        }, 1000);
+
+        
+    }
+
     console.log('shipping_method:'+ajax_object.chosen_shipping_method);
 
 	jQuery("#wcys_vehicle").select2();

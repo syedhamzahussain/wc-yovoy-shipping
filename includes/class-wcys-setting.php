@@ -170,9 +170,9 @@ if (!class_exists('WCYS_Settings')) {
                     'type' => 'multiselect',
                     'default' => '',
                     'options' => array(
-                        '1' => 'Moto (Bike)',
-                        '2' => 'Carro (Car)',
-                        '3' => 'Mini-camión (Light truck)',
+                        '1' => 'Moto',
+                        '2' => 'Carro',
+                        '3' => 'Mini-camión',
                     ),
                     'desc_tip' => 'Add vehcile to show on checkout',
                     'id' => self::$settings_tab . '_vehicle',

@@ -85,7 +85,7 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                         'phone' => $order->get_billing_phone(),
                         'name' => $order->get_shipping_first_name() ? $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name() : $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                         'notes' => 'Additional delivery notes or steps for an agent.',
-                        'reference' => $order->get_shipping_address_1() ? $order->get_shipping_address_1() : $order->get_billing_address_1(),
+                        'reference' => $order->get_meta('_wcys_delivery_reference'),
                         // "cashOnDelivery"=> 500,
                         'date' => $order->get_meta('_yovoy_delivery_date'), // "Thu Dec 23 2020 09:00:00 GMT-0600 (Central Standard Time)"
                     ),
@@ -137,6 +137,10 @@ if (!class_exists('WCYS_Customer_Checkout')) {
 
             if (isset($_POST['wcys_vehicle'])) {
                 update_post_meta($order_id, '_yovoy_vehicle', sanitize_text_field($_POST['wcys_vehicle']));
+            }
+
+            if ( isset($_POST['wcys_delivery_reference']) ) {
+                update_post_meta($order_id, '_wcys_delivery_reference', sanitize_text_field($_POST['wcys_delivery_reference']));
             }
 
             if (isset($_POST['wcys_delivery_type'])) {
@@ -239,18 +243,19 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                 if ($chosen_method_id == $customer_carrier_method) :
 
                     $option = get_option('wcys_vehicle', true);
+
                     $vehicle = array();
                     if (is_array($option)) {
                         foreach ($option as $val) {
                             switch ($val) {
                                 case $val == 1:
-                                    array_push($vehicle, 'Moto (Bike)');
+                                    array_push($vehicle, __('Moto','wcys'));
                                     break;
                                 case $val == 2:
-                                    array_push($vehicle, 'Carro (Car)');
+                                    array_push($vehicle, __('Carro','wcys'));
                                     break;
                                 case $val == 3:
-                                    array_push($vehicle, 'Mini-camión (Light truck)');
+                                    array_push($vehicle, __('Mini-camión','wcys'));
                                     break;
                             }
                         }
@@ -278,6 +283,15 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                     );
 
                     echo '<div id="map-canvas" style="width:300px; height: 300px;"></div>';
+                    woocommerce_form_field(
+                            'wcys_delivery_reference', array(
+                        'type' => 'text',
+                        'input_class' => array('form-row-wide wcys_delivery_reference'),
+                        'required' => true,
+                        'placeholder' => 'Referencias para el repartidor',
+                        'style' => '',
+                            ), WC()->checkout->get_value('wcys_delivery_reference')
+                    );
 
                     woocommerce_form_field(
                             'wcys_vehicle', array(
@@ -298,8 +312,8 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                         'default' => 'asap', // $delivery_type,
                         'checked' => 'checked',
                         'options' => array(
-                            'asap' => 'ASAP',
-                            'schedule' => 'Schedule',
+                            'asap' => __('Lo antes posible','wcys'),
+                            'schedule' => __('Agendar','wcys'),
                         ),
                             ), WC()->checkout->get_value('wcys_delivery_type')
                     );
