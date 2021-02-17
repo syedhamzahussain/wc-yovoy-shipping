@@ -158,14 +158,21 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		}
 
 		public function wcys_checkout_process() {
+
 			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) ) {
-				wc_add_notice( ( "Please don't forget to enter delivery address." ), 'error' );
+				wc_add_notice( __( "Please don't forget to enter delivery address.",'wcys' ), 'error' );
 			}
 
 			if ( isset( $_POST['wcys_delivery_type'] ) ) {
 				if ( 'schedule' == strtolower( $_POST['wcys_delivery_type'] ) && empty( $_POST['wcys_deliver_date'] ) ) {
-					wc_add_notice( ( "Please don't forget to enter delivery date and time" ), 'error' );
+					wc_add_notice( __( "Please don't forget to enter delivery date and time",'wcys' ), 'error' );
 				}
+			}
+
+			if ( isset( $_POST['wcys_delivery_reference'] ) && empty( $_POST['wcys_delivery_reference'] ) ) {
+	
+					wc_add_notice( __( "Please don't forget to enter references for the dealer.",'wcys' ), 'error' );
+				
 			}
 		}
 
@@ -294,9 +301,9 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						array(
 							'type'        => 'text',
 							'input_class' => array( 'form-row-wide wcys_delivery_reference' ),
+							'id'		  => 'wcys_delivery_reference',
 							'required'    => true,
 							'placeholder' => 'Referencias para el repartidor',
-							'style'       => '',
 						),
 						WC()->checkout->get_value( 'wcys_delivery_reference' )
 					);

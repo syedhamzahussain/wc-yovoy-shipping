@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Solcoders
+# Copyright (C) YEAR solcoders
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 20:47+0500\n"
+"POT-Creation-Date: 2021-02-17 20:22+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,116 +17,104 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: wc-yovoy-shipping.php:40
+#: wc-yovoy-shipping.php:41
 #, php-format
 msgid ""
 "Thanks for using %s. Please configure settings from WooCommerce Settings page"
 msgstr ""
 
-#: wc-yovoy-shipping.php:40
+#: wc-yovoy-shipping.php:41
 msgid "Yovoy Shipping"
 msgstr ""
 
-#: wc-yovoy-shipping.php:60
+#: wc-yovoy-shipping.php:61
 msgid ""
 "In order to activate this plugin please make sure to install and activate "
 "the following plugin(s):"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:163
-msgid "Please don't forget to enter delivery address."
-msgstr ""
-
-#: includes/class-wcys-customer-checkout.php:168
-msgid "Please don't forget to enter delivery date and time"
-msgstr ""
-
-#: includes/class-wcys-customer-checkout.php:174
-msgid "Please don't forget to enter references for the dealer."
-msgstr ""
-
-#: includes/class-wcys-customer-checkout.php:260
+#: includes/class-wcys-customer-checkout.php:252
 msgid "Moto"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:263
+#: includes/class-wcys-customer-checkout.php:255
 msgid "Carro"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:266
+#: includes/class-wcys-customer-checkout.php:258
 msgid "Mini-camión"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:274
+#: includes/class-wcys-customer-checkout.php:266
 #: includes/class-wcys-shipping-method.php:15
 #: includes/class-wcys-shipping-method.php:63
 msgid "Please located your location on the map."
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:316
+#: includes/class-wcys-customer-checkout.php:300
 msgid "Vehicle Type"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:318
+#: includes/class-wcys-customer-checkout.php:302
 msgid "- Select Vehicle -"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:333
+#: includes/class-wcys-customer-checkout.php:315
 msgid "Lo antes posible"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:334
+#: includes/class-wcys-customer-checkout.php:316
 msgid "Agendar"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:386
+#: includes/class-wcys-customer-checkout.php:365
 #: includes/class-wcys-shipping-method.php:14
 #: includes/class-wcys-shipping-method.php:32
 #: includes/class-wcys-shipping-method.php:57
 msgid "YoVoy Shipping"
 msgstr ""
 
-#: includes/class-wcys-setting.php:87
+#: includes/class-wcys-setting.php:80
 msgid "YoVoy"
 msgstr ""
 
-#: includes/class-wcys-setting.php:113
+#: includes/class-wcys-setting.php:106
 msgid "Set Pick-up Location & Api key"
 msgstr ""
 
-#: includes/class-wcys-setting.php:120
+#: includes/class-wcys-setting.php:113
 msgid "Manual Confirmation"
 msgstr ""
 
-#: includes/class-wcys-setting.php:127
+#: includes/class-wcys-setting.php:120
 msgid "Google Map Api"
 msgstr ""
 
-#: includes/class-wcys-setting.php:133
+#: includes/class-wcys-setting.php:126
 msgid "Api Key"
 msgstr ""
 
-#: includes/class-wcys-setting.php:140
+#: includes/class-wcys-setting.php:133
 msgid "Name"
 msgstr ""
 
-#: includes/class-wcys-setting.php:147
+#: includes/class-wcys-setting.php:140
 msgid "Pick-up Address"
 msgstr ""
 
-#: includes/class-wcys-setting.php:161
+#: includes/class-wcys-setting.php:148
 msgid "Reference"
 msgstr ""
 
-#: includes/class-wcys-setting.php:168
+#: includes/class-wcys-setting.php:155
 msgid "Email"
 msgstr ""
 
-#: includes/class-wcys-setting.php:175
+#: includes/class-wcys-setting.php:162
 msgid "Phone"
 msgstr ""
 
-#: includes/class-wcys-setting.php:182
+#: includes/class-wcys-setting.php:169
 msgid "Vehicle Types "
 msgstr ""
 

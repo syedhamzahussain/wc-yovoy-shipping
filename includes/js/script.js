@@ -4,21 +4,12 @@ jQuery(document).ready(function () {
         initialize();
         jQuery('.woocommerce-shipping-fields').hide();
 
-    }
-
-    if (jQuery('#wcys_google_address').val() == '0' || jQuery('#wcys_google_address').val() == 0) {
-
-        setTimeout(
-                function ()
-                {
-                    jQuery('#wcys_google_address').val('Honduras');
-                    //initialize();
-                }, 1000);
-
+        if (jQuery('#wcys_google_address').val() == '0' || jQuery('#wcys_google_address').val() == 0) {
+            jQuery('#wcys_google_address').click();
+            jQuery('#wcys_google_address').val('Honduras');
+        }
 
     }
-
-    console.log('shipping_method:' + ajax_object.chosen_shipping_method);
 
     jQuery("#wcys_vehicle").select2();
 
