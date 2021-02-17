@@ -12,7 +12,7 @@ function WCYS_Shipping_Method() {
             public function __construct() {
                 $this->id = 'wcys_shipping';
                 $this->method_title = __('YoVoy Shipping', 'wcys');  // Title shown in admin
-                $this->method_description = __('Please located your location on the map.','wcys'); // Description shown in admin
+                $this->method_description = __('Please located your location on the map.', 'wcys'); // Description shown in admin
                 // Availability & Countries
                 $this->availability = 'including';
                 $this->countries = array(
@@ -29,7 +29,7 @@ function WCYS_Shipping_Method() {
                 $this->init();
 
                 $this->enabled = isset($this->settings['enabled']) ? $this->settings['enabled'] : 'yes';
-                $this->title = isset($this->settings['title']) ? $this->settings['title'] : __('YoVoy Shipping','wcys');
+                $this->title = isset($this->settings['title']) ? $this->settings['title'] : __('YoVoy Shipping', 'wcys');
             }
 
             function init() {
@@ -60,7 +60,7 @@ function WCYS_Shipping_Method() {
                         'title' => __('Description', 'wcys'),
                         'type' => 'text',
                         'description' => __('Description to be display on site', 'wcys'),
-                        'default' => __('Please located your location on the map.','wcys'),
+                        'default' => __('Please located your location on the map.', 'wcys'),
                     ),
                 );
             }

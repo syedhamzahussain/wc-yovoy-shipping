@@ -52,8 +52,8 @@ if (!class_exists('WCYS_Customer_Checkout')) {
             global $woocommerce;
             $cart = $woocommerce->cart;
             $wc_price = $cart->total;
-            
-            if( ( $wc_price + $_REQUEST['cost'] ) <  $wc_price ){
+
+            if (( $wc_price + $_REQUEST['cost'] ) < $wc_price) {
                 $wc_price = ($_REQUEST['cost']) + $cart->total;
             }
 
@@ -139,7 +139,7 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                 update_post_meta($order_id, '_yovoy_vehicle', sanitize_text_field($_POST['wcys_vehicle']));
             }
 
-            if ( isset($_POST['wcys_delivery_reference']) ) {
+            if (isset($_POST['wcys_delivery_reference'])) {
                 update_post_meta($order_id, '_wcys_delivery_reference', sanitize_text_field($_POST['wcys_delivery_reference']));
             }
 
@@ -192,16 +192,16 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                 } else {
                     $cost = 0;
                 }
-				
+
                 WC()->session->set('wcys_delivery_latitude', $_POST['wcys_lat']);
                 WC()->session->set('wcys_delivery_longitude', $_POST['wcys_long']);
                 WC()->session->set('wcys_google_address', $_POST['wcys_google_address']);
                 WC()->session->set('wcys_vechicle', $_POST['wcys_vechicle']);
 
-				global $woocommerce;
-            	$cart = $woocommerce->cart;
-            	$total_cost = $cart->subtotal + $data->fare;
-				
+                global $woocommerce;
+                $cart = $woocommerce->cart;
+                $total_cost = $cart->subtotal + $data->fare;
+
                 return wp_send_json(
                         array(
                             'status' => 'success',
@@ -249,24 +249,24 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                         foreach ($option as $val) {
                             switch ($val) {
                                 case $val == 1:
-                                    array_push($vehicle, __('Moto','wcys'));
+                                    array_push($vehicle, __('Moto', 'wcys'));
                                     break;
                                 case $val == 2:
-                                    array_push($vehicle, __('Carro','wcys'));
+                                    array_push($vehicle, __('Carro', 'wcys'));
                                     break;
                                 case $val == 3:
-                                    array_push($vehicle, __('Mini-camión','wcys'));
+                                    array_push($vehicle, __('Mini-camión', 'wcys'));
                                     break;
                             }
                         }
                     }
 
-                    $yovoy_desc = get_option('woocommerce_wcys_shipping_settings',false)['description'];
-                    if( !$yovoy_desc ){
-                        $yovoy_desc = __('Please located your location on the map.','wcys');
+                    $yovoy_desc = get_option('woocommerce_wcys_shipping_settings', false)['description'];
+                    if (!$yovoy_desc) {
+                        $yovoy_desc = __('Please located your location on the map.', 'wcys');
                     }
 
-                    echo "<div class='desc_yovoy'>".$yovoy_desc."</div>";
+                    echo "<div class='desc_yovoy'>" . $yovoy_desc . "</div>";
 
                     echo '<div class="custom-carrier">';
                     woocommerce_form_field(
@@ -312,8 +312,8 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                         'default' => 'asap', // $delivery_type,
                         'checked' => 'checked',
                         'options' => array(
-                            'asap' => __('Lo antes posible','wcys'),
-                            'schedule' => __('Agendar','wcys'),
+                            'asap' => __('Lo antes posible', 'wcys'),
+                            'schedule' => __('Agendar', 'wcys'),
                         ),
                             ), WC()->checkout->get_value('wcys_delivery_type')
                     );
@@ -357,12 +357,12 @@ if (!class_exists('WCYS_Customer_Checkout')) {
         public function wcys_custom_script() {
 
             $shipping_methods = WC()->shipping->get_shipping_methods();
-            $current_method = $shipping_methods; 
+            $current_method = $shipping_methods;
 
-            $yovoy_title = get_option('woocommerce_wcys_shipping_settings',false)['title'];
+            $yovoy_title = get_option('woocommerce_wcys_shipping_settings', false)['title'];
 
-            if(!$yovoy_title){
-                __('YoVoy Shipping','wcys');
+            if (!$yovoy_title) {
+                __('YoVoy Shipping', 'wcys');
             }
 
             if (is_checkout() || is_cart()) {
@@ -376,9 +376,9 @@ if (!class_exists('WCYS_Customer_Checkout')) {
             wp_localize_script(
                     'wcys-script', 'ajax_object', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'yovoy_title' =>  $yovoy_title,
+                'yovoy_title' => $yovoy_title,
                 'wcys_address' => WC()->session->get("wcys_delivery_address"),
-                'chosen_shipping_method' => WC()->session->get( 'chosen_shipping_methods' )[0],
+                'chosen_shipping_method' => WC()->session->get('chosen_shipping_methods')[0],
                     )
             );
 
