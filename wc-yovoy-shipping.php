@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: YoVoy
- *
- * @package WooCommerce-YoVoy-Shipping
- *
  * Description: Woocommerce YoVoy Shipping Integration.
- * Version: 1.1.1.15
+ * Author: Syed Hamza Hussain
+ * Version: 1.1.1.16
  * Text Domain: wcys
  * Domain Path: /languages
- * WC tested up to: 4.8.0
+ * Author URI: https://www.upwork.com/fl/syedhamzahussain
+ * WC tested up to: 5.0.0
  */
 if (!defined('ABSPATH')) {
     exit;
