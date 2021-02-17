@@ -29,7 +29,7 @@ function WCYS_Shipping_Method() {
                 $this->init();
 
                 $this->enabled = isset($this->settings['enabled']) ? $this->settings['enabled'] : 'yes';
-                $this->title = isset($this->settings['title']) ? $this->settings['title'] : 'YoVoy Shipping';
+                $this->title = isset($this->settings['title']) ? $this->settings['title'] : __('YoVoy Shipping','wcys');
             }
 
             function init() {
@@ -45,16 +45,16 @@ function WCYS_Shipping_Method() {
 
                 $this->form_fields = array(
                     'enabled' => array(
-                        'title' => __('Enable', 'my'),
+                        'title' => __('Enable', 'wcys'),
                         'type' => 'checkbox',
-                        'description' => __('Enable this shipping.', 'my'),
+                        'description' => __('Enable this shipping.', 'wcys'),
                         'default' => 'yes',
                     ),
                     'title' => array(
-                        'title' => __('Title', 'my'),
+                        'title' => __('Title', 'wcys'),
                         'type' => 'text',
-                        'description' => __('Title to be display on site', 'my'),
-                        'default' => __('MyShipping', 'my'),
+                        'description' => __('Title to be display on site', 'wcys'),
+                        'default' => __('YoVoy Shipping', 'wcys'),
                     ),
                 );
             }
