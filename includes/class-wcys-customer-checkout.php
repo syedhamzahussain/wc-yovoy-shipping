@@ -256,6 +256,13 @@ if (!class_exists('WCYS_Customer_Checkout')) {
                         }
                     }
 
+                    $yovoy_desc = get_option('woocommerce_wcys_shipping_settings',false)['description'];
+                    if( !$yovoy_desc ){
+                        $yovoy_desc = __('Please located your location on the map.','wcys');
+                    }
+
+                    echo "<div class='desc_yovoy'>".$yovoy_desc."</div>";
+
                     echo '<div class="custom-carrier">';
                     woocommerce_form_field(
                             'wcys_delivery_address', array(
@@ -338,6 +345,12 @@ if (!class_exists('WCYS_Customer_Checkout')) {
             $shipping_methods = WC()->shipping->get_shipping_methods();
             $current_method = $shipping_methods; 
 
+            $yovoy_title = get_option('woocommerce_wcys_shipping_settings',false)['title'];
+
+            if(!$yovoy_title){
+                __('YoVoy Shipping','wcys');
+            }
+
             if (is_checkout() || is_cart()) {
                 wp_enqueue_script('wcys-autocomplete-polyfill', 'https://polyfill.io/v3/polyfill.min.js?features=default', array('jquery'), '2.1');
                 wp_enqueue_script('wcys-autocomplete-search', 'https://maps.googleapis.com/maps/api/js?key=' . get_option(self::$settings_tab . '_google_api') . '&libraries=geometry,places&v=weekly', array('jquery'), '2.1.3');
@@ -349,6 +362,7 @@ if (!class_exists('WCYS_Customer_Checkout')) {
             wp_localize_script(
                     'wcys-script', 'ajax_object', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
+                'yovoy_title' =>  $yovoy_title,
                 'wcys_address' => WC()->session->get("wcys_delivery_address"),
                 'chosen_shipping_method' => WC()->session->get( 'chosen_shipping_methods' )[0],
                     )

@@ -167,9 +167,9 @@ jQuery(document).ready(function () {
                     if (response.cost != 0) {
 
                         if (jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html() == undefined) {
-                            jQuery('.shipping_method[value="wcys_shipping"]').next().append(': ' + response.cost);
+                            jQuery('.shipping_method[value="wcys_shipping"]').next().append(ajax_object.yovoy_title +': ' + response.cost);
                         } else {
-                            jQuery('.shipping_method[value="wcys_shipping"]').next().html('YoVoy Shipping: ' + response.cost);
+                            jQuery('.shipping_method[value="wcys_shipping"]').next().html(ajax_object.yovoy_title +': '+ response.cost);
                         }
 
 						jQuery('.order-total > td').html(response.total_cost);

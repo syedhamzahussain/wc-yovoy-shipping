@@ -11,8 +11,8 @@ function WCYS_Shipping_Method() {
 
             public function __construct() {
                 $this->id = 'wcys_shipping';
-                $this->method_title = __('YoVoy Shipping');  // Title shown in admin
-                $this->method_description = __('YoVoy Shipping Description'); // Description shown in admin
+                $this->method_title = __('YoVoy Shipping', 'wcys');  // Title shown in admin
+                $this->method_description = __('Please located your location on the map.','wcys'); // Description shown in admin
                 // Availability & Countries
                 $this->availability = 'including';
                 $this->countries = array(
@@ -55,6 +55,12 @@ function WCYS_Shipping_Method() {
                         'type' => 'text',
                         'description' => __('Title to be display on site', 'wcys'),
                         'default' => __('YoVoy Shipping', 'wcys'),
+                    ),
+                    'description' => array(
+                        'title' => __('Description', 'wcys'),
+                        'type' => 'text',
+                        'description' => __('Description to be display on site', 'wcys'),
+                        'default' => __('Please located your location on the map.','wcys'),
                     ),
                 );
             }
