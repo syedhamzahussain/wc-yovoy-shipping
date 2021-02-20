@@ -286,7 +286,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							'type'              => 'text',
 							'class'             => array( 'form-row-wide' ),
 							'id'                => 'wcys_google_address',
-							'label'             => 'Delivery Address:',
+							'label'             => 'Dirección de Envío :',
 							'required'          => true,
 							'placeholder'       => 'Enter Delivery Address',
 							'custom_attributes' => array(
@@ -316,7 +316,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						array(
 							'type'        => 'select',
 							'class'       => array( 'form-row-last' ),
-							'label'       => __( 'Vehicle Type' ),
+							'label'       => __( 'Tipo de Vehículo' ),
 							'required'    => true,
 							'placeholder' => __( '- Select Vehicle -' ),
 							'options'     => $vehicle,

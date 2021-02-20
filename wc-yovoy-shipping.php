@@ -3,7 +3,7 @@
  * Plugin Name: YoVoy
  * Description: Woocommerce YoVoy Shipping Integration.
  * Author: Syed Hamza Hussain
- * Version: 1.1.1.18
+ * Version: 1.1.1.19
  * Text Domain: wcys
  * Domain Path: /languages
  * Author URI: https://www.upwork.com/fl/syedhamzahussain
