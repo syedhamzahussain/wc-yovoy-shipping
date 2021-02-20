@@ -2,11 +2,11 @@
 /**
  * Plugin Name: YoVoy
  * Description: Woocommerce YoVoy Shipping Integration.
- * Author: Syed Hamza Hussain
+ * Author: Salebien LLC
  * Version: 1.1.1.19
  * Text Domain: wcys
  * Domain Path: /languages
- * Author URI: https://www.upwork.com/fl/syedhamzahussain
+ * Author URI: #
  * WC tested up to: 5.0.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
