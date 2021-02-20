@@ -1,3 +1,5 @@
+var lati = 15.199999;
+var longi = -86.241905;
 jQuery(document).ready(function () {
 
     if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
@@ -43,6 +45,17 @@ jQuery(document).ready(function () {
 
                         }, 1500);
             });
+    jQuery(document.body).on(
+            "change", "#wcys_vehicle",
+            function (event) {
+
+              lati = parseFloat(jQuery("#wcys_google_address").attr('data-lat'));
+              longi = parseFloat(jQuery("#wcys_google_address").attr('data-long'));
+              check = jQuery('#wcys_google_address').val()
+
+              saveLatLong(lati, longi, check);
+              
+            });
 
 
 
@@ -58,8 +71,9 @@ var infowindow = new google.maps.InfoWindow({
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
-    var lati = parseFloat(jQuery("#wcys_google_address").attr('data-lat'));
-    var longi = parseFloat(jQuery("#wcys_google_address").attr('data-long'));
+    lati = parseFloat(jQuery("#wcys_google_address").attr('data-lat'));
+    longi = parseFloat(jQuery("#wcys_google_address").attr('data-long'));
+
 
     var mapOptions = {
         zoom: 8,
@@ -108,13 +122,14 @@ function initialize() {
         // If the place has a geometry, then present it on a map.
         if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
+            map.setZoom(8); // Why 17? Because it looks good.
         } else {
             map.setCenter(place.geometry.location);
             map.setZoom(8); // Why 17? Because it looks good.
         }
 
         marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
+        //marker.setVisible(true);
 
         var address = '';
         if (place.address_components) {
@@ -129,7 +144,7 @@ function initialize() {
 
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 
 function geocodePosition(pos, lat, lng) {
@@ -156,6 +171,9 @@ function geocodePosition(pos, lat, lng) {
 }
 
 function saveLatLong(lat, lng, check = false) {
+    jQuery("#wcys_google_address").attr('data-lat', lat);
+    jQuery("#wcys_google_address").attr('data-long', lng);
+
     var data = {
         'action': 'wcys_fare_lat_long',
         'wcys_lat': lat,
@@ -176,6 +194,8 @@ function saveLatLong(lat, lng, check = false) {
                     }
 
                     jQuery('.order-total > td').html(response.total_cost);
+                    // jQuery(document.body).trigger('update_checkout');  
+                     
                 }
             }
     );

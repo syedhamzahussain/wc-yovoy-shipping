@@ -107,7 +107,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		}
 
 		public function wcys_shipping_cost_based_on_api( $rates ) {
-
+			
 			if ( WC()->session->get( 'wcys_fare_price' ) ) {
 				foreach ( $rates as $rate_key => $rate_values ) {
 					// Not for "Free Shipping method" (all others only)
@@ -269,8 +269,11 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						}
 					}
 
-					$yovoy_desc = get_option( 'woocommerce_wcys_shipping_settings', false )['description'];
-					if ( ! $yovoy_desc ) {
+					$yovoy_desc = get_option( 'woocommerce_wcys_shipping_settings', false );
+					if ( $yovoy_desc  && isset($yovoy_desc['description']) ) {
+						$yovoy_desc = $yovoy_desc['description'];
+					}
+					else{
 						$yovoy_desc = __( 'Please located your location on the map.', 'wcys' );
 					}
 
