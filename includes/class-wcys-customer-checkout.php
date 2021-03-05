@@ -93,7 +93,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				);
 
 				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
-				if ( $data->success ) {
+				if ( !empty( $data ) && $data->success ) {
 					update_post_meta( $order_id, 'trackingLink', $data->trackingLink );
 					echo '<strong>Tracking Link:</strong> ' . $data->trackingLink;
 				}
