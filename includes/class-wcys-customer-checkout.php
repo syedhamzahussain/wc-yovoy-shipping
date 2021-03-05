@@ -397,6 +397,11 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			wp_enqueue_script( 'wcys-script', WCYS_PLUGIN_URL . 'includes/js/script.js', array( 'jquery' ), '1.0' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 
+			$chosen_shipping_method = '';
+			if( WC()->session->get( 'chosen_shipping_methods' ) ){
+				$chosen_shipping_method = WC()->session->get( 'chosen_shipping_methods' )[0];
+			}
+
 			wp_localize_script(
 				'wcys-script',
 				'ajax_object',
@@ -404,7 +409,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					'ajax_url'               => admin_url( 'admin-ajax.php' ),
 					'yovoy_title'            => $yovoy_title,
 					'wcys_address'           => WC()->session->get( 'wcys_delivery_address' ),
-					'chosen_shipping_method' => WC()->session->get( 'chosen_shipping_methods' )[0],
+					'chosen_shipping_method' => $chosen_shipping_method,
 				)
 			);
 
