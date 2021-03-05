@@ -46,6 +46,9 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'wcys_checkout_field_update_order_meta' ), 30, 1 );
 			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 10, 1 );
+
+			WC()->session = new WC_Session_Handler();
+			WC()->session->init();
 		}
 
 		public function get_latest_total() {
