@@ -30,7 +30,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		 */
 		public function __construct() {
 
-			add_action( 'wp', array( $this, 'init_front' ) );
+			add_action( 'init', array( $this, 'init_front' ) );
 			add_action( 'wp_ajax_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_action( 'wp_ajax_nopriv_wcys_fare_lat_long', array( $this, 'wcys_fare_lat_long' ) );
 			add_filter( 'woocommerce_package_rates', array( $this, 'wcys_shipping_cost_based_on_api' ), 10, 1 );
