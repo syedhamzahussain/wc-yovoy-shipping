@@ -1,9 +1,16 @@
 #map-canvas{
-    overflow: auto;
-    height: 100%;
-    width: 100%;
+    visibility: hidden;
+    width: 300px!important;
+    height: 300px!important;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-div{
+	
 }
 
 #wcys_vehicle_field,#wcys_delivery_type_field{
 	float: left;
     width: 100%;}
+

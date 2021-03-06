@@ -2,6 +2,8 @@ var lati = 15.199999;
 var longi = -86.241905;
 jQuery(document).ready(function () {
 
+
+
     if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
         initialize();
         jQuery('.woocommerce-shipping-fields').hide();
@@ -12,6 +14,11 @@ jQuery(document).ready(function () {
         }
 
     }
+
+    setTimeout(function ()
+    {
+    jQuery('#map-canvas').attr('style',"visibility:visible!important");
+    }, 1500);
 
     jQuery("#wcys_vehicle").select2();
 

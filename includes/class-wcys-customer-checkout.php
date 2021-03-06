@@ -96,7 +96,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				);
 
 				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
-				if ( !empty( $data ) && $data->success ) {
+				if ( ! empty( $data ) && $data->success ) {
 					update_post_meta( $order_id, 'trackingLink', $data->trackingLink );
 					echo '<strong>Tracking Link:</strong> ' . $data->trackingLink;
 				}
@@ -110,7 +110,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		}
 
 		public function wcys_shipping_cost_based_on_api( $rates ) {
-			
+
 			if ( WC()->session->get( 'wcys_fare_price' ) ) {
 				foreach ( $rates as $rate_key => $rate_values ) {
 					// Not for "Free Shipping method" (all others only)
@@ -163,19 +163,19 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		public function wcys_checkout_process() {
 
 			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) ) {
-				wc_add_notice( __( "Please don't forget to enter delivery address.",'wcys' ), 'error' );
+				wc_add_notice( __( "Please don't forget to enter delivery address.", 'wcys' ), 'error' );
 			}
 
 			if ( isset( $_POST['wcys_delivery_type'] ) ) {
 				if ( 'schedule' == strtolower( $_POST['wcys_delivery_type'] ) && empty( $_POST['wcys_deliver_date'] ) ) {
-					wc_add_notice( __( "Please don't forget to enter delivery date and time",'wcys' ), 'error' );
+					wc_add_notice( __( "Please don't forget to enter delivery date and time", 'wcys' ), 'error' );
 				}
 			}
 
 			if ( isset( $_POST['wcys_delivery_reference'] ) && empty( $_POST['wcys_delivery_reference'] ) ) {
-	
-					wc_add_notice( __( "Please don't forget to enter references for the dealer.",'wcys' ), 'error' );
-				
+
+					wc_add_notice( __( "Please don't forget to enter references for the dealer.", 'wcys' ), 'error' );
+
 			}
 		}
 
@@ -273,10 +273,9 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					}
 
 					$yovoy_desc = get_option( 'woocommerce_wcys_shipping_settings', false );
-					if ( $yovoy_desc  && isset($yovoy_desc['description']) ) {
+					if ( $yovoy_desc && isset( $yovoy_desc['description'] ) ) {
 						$yovoy_desc = $yovoy_desc['description'];
-					}
-					else{
+					} else {
 						$yovoy_desc = __( 'Please located your location on the map.', 'wcys' );
 					}
 
@@ -301,13 +300,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						WC()->checkout->get_value( 'wcys_delivery_address' )
 					);
 
-					echo '<div id="map-canvas" style="width:300px; height: 300px;"></div>';
+					echo '<div id="map-canvas"></div>';
 					woocommerce_form_field(
 						'wcys_delivery_reference',
 						array(
 							'type'        => 'text',
 							'input_class' => array( 'form-row-wide wcys_delivery_reference' ),
-							'id'		  => 'wcys_delivery_reference',
+							'id'          => 'wcys_delivery_reference',
 							'required'    => true,
 							'placeholder' => 'Referencias para el repartidor',
 						),
@@ -401,7 +400,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 
 			$chosen_shipping_method = '';
-			if( WC()->session->get( 'chosen_shipping_methods' ) ){
+			if ( WC()->session->get( 'chosen_shipping_methods' ) ) {
 				$chosen_shipping_method = WC()->session->get( 'chosen_shipping_methods' )[0];
 			}
 
