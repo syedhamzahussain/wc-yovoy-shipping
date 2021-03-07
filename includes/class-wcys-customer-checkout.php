@@ -174,7 +174,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 			if ( isset( $_POST['wcys_delivery_reference'] ) && empty( $_POST['wcys_delivery_reference'] ) ) {
 
-					wc_add_notice( __( "Please don't forget to enter references for the dealer.", 'wcys' ), 'error' );
+					wc_add_notice( __( "Please provide a reference for your Delivery Agent.", 'wcys' ), 'error' );
 
 			}
 		}
