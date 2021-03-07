@@ -47,8 +47,29 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'wcys_checkout_field_update_order_meta' ), 30, 1 );
 			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 10, 1 );
 
+			add_filter( 'woocommerce_checkout_fields', array( $this,'wcys_remove_fields'), 10,1 );
+
 			WC()->session = new WC_Session_Handler();
 			WC()->session->init();
+		}
+
+		
+ 
+		public function wcys_remove_fields( $woo_checkout_fields_array ) {
+
+			$chosen_shipping_method = '';
+			if ( WC()->session->get( 'chosen_shipping_methods' ) ) {
+				$chosen_shipping_method = WC()->session->get( 'chosen_shipping_methods' )[0];
+			}
+		 
+		if ($chosen_shipping_method == 'wcys_shipping') {
+			unset( $woo_checkout_fields_array['billing']['billing_address_1'] );
+			unset( $woo_checkout_fields_array['billing']['billing_address_2'] );
+			unset( $woo_checkout_fields_array['billing']['billing_city'] );
+			unset( $woo_checkout_fields_array['billing']['billing_state'] ); // remove state field
+			unset( $woo_checkout_fields_array['billing']['billing_postcode'] ); // remove zip code field
+		}
+			return $woo_checkout_fields_array;
 		}
 
 		public function get_latest_total() {

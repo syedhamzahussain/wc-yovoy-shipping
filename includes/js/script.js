@@ -47,7 +47,11 @@ jQuery(document).ready(function () {
                             if (jQuery('.shipping_method:checked:checked').val() == 'wcys_shipping') {
                                 initialize();
                                 jQuery('.woocommerce-shipping-fields').hide();
+                                location.reload();
 
+                            }
+                            else{
+                                location.reload();
                             }
 
                         }, 1500);
