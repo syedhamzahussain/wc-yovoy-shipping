@@ -45,77 +45,12 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_filter( 'woocommerce_after_shipping_rate', array( $this, 'wcys_find_all_available_shipping_rates' ), 10, 2 );
 			add_action( 'woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'wcys_checkout_field_update_order_meta' ), 30, 1 );
-			add_action( 'woocommerce_thankyou', array( $this, 'wcys_on_successful_purchase' ), 10, 1 );
-			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ), 20, 1 );
-			
-
+			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ) );
 			add_filter( 'woocommerce_checkout_fields', array( $this,'wcys_remove_fields'), 10,1 );
 
 			WC()->session = new WC_Session_Handler();
 			WC()->session->init();
 		}
-
-		public function wcys_on_successful_purchase( $order_id ) {
-
-			$order = wc_get_order( $order_id );
-
-			if ($order) {
-				
-			
-
-			$chosen_shipping_method = '';
-			if ( WC()->session->get( 'chosen_shipping_methods' ) ) {
-				$chosen_shipping_method = WC()->session->get( 'chosen_shipping_methods' )[0];
-			}
-
-			if ( $chosen_shipping_method ==  'wcys_shipping' && ! WC()->session->get( 'order_delivery_api_{$order_id}' ) ) {
-				WC()->session->set( "order_delivery_api_{$order_id}", true );
-				$url  = 'https://integrations.yovoyenvios.com/api/delivery';
-				$body = array(
-					'pickup'   => array(
-						'latitude'  => get_option( 'wcys_pickup_latitude' ),
-						'longitude' => get_option( 'wcys_pickup_longitude' ),
-						'email'     => get_option( 'wcys_email' ),
-						'phone'     => get_option( 'wcys_phone' ),
-						'name'      => get_option( 'wcys_name' ),
-						'notes'     => get_option( 'wcys_notes' ),
-						'reference' => get_option( 'wcys_reference' ),
-						'vehicle'   => 0,
-						'date'      => $order->get_meta( '_yovoy_pickup_date' ),
-					),
-					'delivery' => array(
-						'latitude'  => WC()->session->get( 'wcys_delivery_latitude' ),
-						'longitude' => WC()->session->get( 'wcys_delivery_longitude' ),
-						'email'     => $order->get_billing_email(),
-						'phone'     => $order->get_billing_phone(),
-						'name'      => $order->get_shipping_first_name() ? $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name() : $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
-						'notes'     => 'Additional delivery notes or steps for an agent.',
-						'reference' => $order->get_meta( '_wcys_delivery_reference' ),
-						// "cashOnDelivery"=> 500,
-						'date'      => $order->get_meta( '_yovoy_delivery_date' ), // "Thu Dec 23 2020 09:00:00 GMT-0600 (Central Standard Time)"
-					),
-					'apiToken' => get_option( 'wcys_api' ),
-				);
-
-				if( 'cod' === $order->get_payment_method() ){
-					$body['delivery']['cashOnDelivery'] = $order->get_total();
-				}
-
-				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
-
-				if ( ! empty( $data ) && $data->success ) {
-
-					if( $data->trackingLink ){
-						update_post_meta( $order_id, 'trackingLink', $data->trackingLink );
-					}
-
-				}
-
-					return;
-				}
-			}
-		}
-
  
 		public function wcys_remove_fields( $woo_checkout_fields_array ) {
 
@@ -149,10 +84,48 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 		public function wcys_shipping_thankyou( $order_id ) {
 			$order = wc_get_order( $order_id );
 
-			if ( $order->has_shipping_method( 'wcys_shipping' ) ) {
-				if( $order->get_meta( 'trackingLink' ) ){
-					echo '<strong>Tracking Link:</strong> ' . $order->get_meta( 'trackingLink' );
+			if ( $order->has_shipping_method( 'wcys_shipping' ) && ! WC()->session->get( "order_delivery_api_{$order_id}" ) ) {
+				WC()->session->set( "order_delivery_api_{$order_id}", true );
+				$url  = 'https://integrations.yovoyenvios.com/api/delivery';
+				$body = array(
+					'pickup'   => array(
+						'latitude'  => get_option( 'wcys_pickup_latitude' ),
+						'longitude' => get_option( 'wcys_pickup_longitude' ),
+						'email'     => get_option( 'wcys_email' ),
+						'phone'     => get_option( 'wcys_phone' ),
+						'name'      => get_option( 'wcys_name' ),
+						'notes'     => get_option( 'wcys_notes' ),
+						'reference' => get_option( 'wcys_reference' ),
+						'vehicle'   => 0,
+						'date'      => $order->get_meta( '_yovoy_pickup_date' ),
+					),
+					'delivery' => array(
+						'latitude'  => WC()->session->get( 'wcys_delivery_latitude' ),
+						'longitude' => WC()->session->get( 'wcys_delivery_longitude' ),
+						'email'     => $order->get_billing_email(),
+						'phone'     => $order->get_billing_phone(),
+						'name'      => $order->get_shipping_first_name() ? $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name() : $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
+						'notes'     => 'Additional delivery notes or steps for an agent.',
+						'reference' => $order->get_meta( '_wcys_delivery_reference' ),
+						// "cashOnDelivery"=> 500,
+						'date'      => $order->get_meta( '_yovoy_delivery_date' ), // "Thu Dec 23 2020 09:00:00 GMT-0600 (Central Standard Time)"
+					),
+					'apiToken' => get_option( 'wcys_api' ),
+				);
+
+				if( 'cod' === $order->get_payment_method() ){
+					$body['delivery']['cashOnDelivery'] = $order->get_total();
 				}
+
+				$data = $this->wcys_send_post_request( $url, wp_json_encode( $body ) );
+				if ( ! empty( $data ) && $data->success ) {
+					update_post_meta( $order_id, 'trackingLink', $data->trackingLink );
+					echo '<strong>Tracking Link:</strong> ' . $data->trackingLink;
+				}
+				return;
+			}
+			if ( $order->has_shipping_method( 'wcys_shipping' ) ) {
+				echo '<strong>Tracking Link:</strong> ' . $order->get_meta( 'trackingLink' );
 			}
 
 			return;
