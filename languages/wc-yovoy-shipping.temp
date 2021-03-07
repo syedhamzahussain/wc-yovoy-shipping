@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Solcoders
+# Copyright (C) YEAR Codup
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 20:47+0500\n"
+"POT-Creation-Date: 2021-03-06 19:26+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,53 +33,53 @@ msgid ""
 "the following plugin(s):"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:163
+#: includes/class-wcys-customer-checkout.php:166
 msgid "Please don't forget to enter delivery address."
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:168
+#: includes/class-wcys-customer-checkout.php:171
 msgid "Please don't forget to enter delivery date and time"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:174
+#: includes/class-wcys-customer-checkout.php:177
 msgid "Please don't forget to enter references for the dealer."
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:260
+#: includes/class-wcys-customer-checkout.php:263
 msgid "Moto"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:263
+#: includes/class-wcys-customer-checkout.php:266
 msgid "Carro"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:266
+#: includes/class-wcys-customer-checkout.php:269
 msgid "Mini-camión"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:274
+#: includes/class-wcys-customer-checkout.php:279
 #: includes/class-wcys-shipping-method.php:15
 #: includes/class-wcys-shipping-method.php:63
 msgid "Please located your location on the map."
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:316
-msgid "Vehicle Type"
+#: includes/class-wcys-customer-checkout.php:321
+msgid "Tipo de Vehículo"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:318
+#: includes/class-wcys-customer-checkout.php:323
 msgid "- Select Vehicle -"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:333
+#: includes/class-wcys-customer-checkout.php:338
 msgid "Lo antes posible"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:334
+#: includes/class-wcys-customer-checkout.php:339
 msgid "Agendar"
 msgstr ""
 
-#: includes/class-wcys-customer-checkout.php:386
+#: includes/class-wcys-customer-checkout.php:391
 #: includes/class-wcys-shipping-method.php:14
 #: includes/class-wcys-shipping-method.php:32
 #: includes/class-wcys-shipping-method.php:57
