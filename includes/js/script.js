@@ -17,7 +17,7 @@ jQuery(document).ready(function () {
 
     setTimeout(function ()
     {
-    jQuery('#map-canvas').attr('style',"visibility:visible!important");
+    jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
     }, 1500);
 
     jQuery("#wcys_vehicle").select2();
