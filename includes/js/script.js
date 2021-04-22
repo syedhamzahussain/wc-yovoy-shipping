@@ -15,10 +15,14 @@ jQuery(document).ready(function () {
 
     }
 
+
     setTimeout(function ()
-    {
-    jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
-    }, 1500);
+    {   
+        if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
+            initialize();
+        }
+        jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
+    }, 4500);
 
     jQuery("#wcys_vehicle").select2();
 

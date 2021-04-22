@@ -3,11 +3,11 @@
  * Plugin Name: YoVoy
  * Description: Woocommerce YoVoy Shipping Integration.
  * Author: Salebien LLC
- * Version: 1.1.1.21
+ * Version: 1.1.1.22
  * Text Domain: wcys
  * Domain Path: /languages
  * Author URI: #
- * WC tested up to: 5.0.0
+ * WC tested up to: 5.2.2
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
