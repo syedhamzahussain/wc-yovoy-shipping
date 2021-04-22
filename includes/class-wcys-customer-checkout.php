@@ -220,7 +220,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				if ( isset( $data->fare ) ) {
 					WC()->session->set( 'wcys_fare_price', $data->fare );
-					$cost = wc_price( $data->fare );
+					$cost = str_replace('<span class="woocommerce-Price-amount amount">','<span>',wc_price( $data->fare ) );
 				} else {
 					$cost = 0;
 				}

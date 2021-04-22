@@ -30,10 +30,12 @@ jQuery(document).ready(function () {
             "click",
             "button[name='update_cart'],input[name='update_cart']",
             function () {
+
                 setTimeout(
                         function ()
                         {
                             initialize();
+                            jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
                         }, 3000);
 
 
@@ -202,11 +204,9 @@ function saveLatLong(lat, lng, check = false) {
             function (response) {
                 if (response.cost != 0) {
 
-                    if (jQuery('.shipping_method[value="wcys_shipping"]').parent().parent().parent().parent().next().find('.woocommerce-Price-amount').parent().html() == undefined) {
-                        jQuery('.shipping_method[value="wcys_shipping"]').next().append(ajax_object.yovoy_title + ': ' + response.cost);
-                    } else {
-                        jQuery('.shipping_method[value="wcys_shipping"]').next().html(ajax_object.yovoy_title + ': ' + response.cost);
-                    }
+                    
+                    jQuery('.shipping_method[value="wcys_shipping"]').next().find(".woocommerce-Price-amount").html(response.cost);
+                    
 
                     jQuery('.order-total > td').html(response.total_cost);
                     // jQuery(document.body).trigger('update_checkout');  
