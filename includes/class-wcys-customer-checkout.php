@@ -407,10 +407,9 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			$shipping_methods = WC()->shipping->get_shipping_methods();
 			$current_method   = $shipping_methods;
 
-			$yovoy_title = get_option( 'woocommerce_wcys_shipping_settings', false )['title'];
-
-			if ( ! $yovoy_title ) {
-				__( 'YoVoy Shipping', 'wcys' );
+			$yovoy_title = __( 'YoVoy Shipping', 'wcys' );
+			if( isset($shipping_methods['wcys_shipping']) ){
+				$yovoy_title = $shipping_methods['wcys_shipping']->title;
 			}
 
 			if ( is_checkout() || is_cart() ) {
