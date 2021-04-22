@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
                         {
                             initialize();
                             jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
-                        }, 3000);
+                        }, 4000);
 
 
             });
@@ -204,12 +204,22 @@ function saveLatLong(lat, lng, check = false) {
             function (response) {
                 if (response.cost != 0) {
 
+                    if(jQuery('.shipping_method[value="wcys_shipping"]').next().children().hasClass("woocommerce-Price-amount") == false){
+                        jQuery('.shipping_method[value="wcys_shipping"]').next().append(' :'+response.cost_formated);
+                    }
+                    else{
+                        jQuery('.shipping_method[value="wcys_shipping"]').next().find(".woocommerce-Price-amount").html(response.cost);
+                    }
                     
-                    jQuery('.shipping_method[value="wcys_shipping"]').next().find(".woocommerce-Price-amount").html(response.cost);
-                    
-
                     jQuery('.order-total > td').html(response.total_cost);
-                    // jQuery(document.body).trigger('update_checkout');  
+
+                    setTimeout(function ()
+                    {   
+                        if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
+                            initialize();
+                        }
+                        jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
+                    }, 1500);
                      
                 }
             }

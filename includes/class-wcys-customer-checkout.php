@@ -240,6 +240,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						'data'       => $data,
 						'cost'       => $cost,
 						'total_cost' => wc_price( $total_cost ),
+						'cost_formated' => wc_price( $data->fare ),
 					)
 				);
 			}
