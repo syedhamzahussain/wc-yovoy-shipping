@@ -70,10 +70,42 @@ jQuery(document).ready(function () {
               longi = parseFloat(jQuery("#wcys_google_address").attr('data-long'));
               check = jQuery('#wcys_google_address').val()
 
-              saveLatLong(lati, longi, check);
+              saveLatLong(lati, longi, check , jQuery(".wcys_shipping_type:checked").val());
               
             });
 
+    jQuery(document.body).on(
+            "change", "[name='wcys_delivery_type']",
+            function (event) {
+        if (jQuery(this).val().toLowerCase() == 'schedule') {
+            jQuery(".wcys_deliver_date").attr('type', 'text');
+            jQuery('.wcys_deliver_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd 23:59:59",
+                changeMonth: true,
+                changeYear: true
+
+            });
+        } else {
+            jQuery(".wcys_deliver_date").attr('type', 'hidden');
+        }
+
+    })
+
+    jQuery(document.body).on(
+            "change", "#wcys_addresses_list",
+            function (event) {
+            latlong =  jQuery(this).val().split('__');
+            saveLatLong(latlong[0], latlong[1],0 , jQuery( this ).val() );
+            
+    });
+
+    jQuery(document.body).on(
+            "change", ".wcys_shipping_type",
+            function (event) {
+                checkSelection( jQuery( this ).val() );
+            
+    });
 
 
 });
@@ -155,7 +187,7 @@ function initialize() {
             ].join(' ');
         }
 
-        saveLatLong(place.geometry.location.lat(), place.geometry.location.lng(), jQuery('#wcys_google_address').val());
+        saveLatLong(place.geometry.location.lat(), place.geometry.location.lng(), jQuery('#wcys_google_address').val(), jQuery(".wcys_shipping_type:checked").val());
 
     });
 
@@ -182,12 +214,12 @@ function geocodePosition(pos, lat, lng) {
         if (check) {
             jQuery("#wcys_google_address").val(check);
         }
-        saveLatLong(lat, lng, check);
+        saveLatLong(lat, lng, check,jQuery(".wcys_shipping_type:checked").val());
 
     });
 }
 
-function saveLatLong(lat, lng, check = false) {
+function saveLatLong(lat, lng, check , addresstype ="map" ) {
     jQuery("#wcys_google_address").attr('data-lat', lat);
     jQuery("#wcys_google_address").attr('data-long', lng);
 
@@ -196,7 +228,8 @@ function saveLatLong(lat, lng, check = false) {
         'wcys_lat': lat,
         'wcys_long': lng,
         'wcys_vehicle': jQuery("#wcys_vehicle").val(),
-        'wcys_google_address': check ? check : 0
+        'wcys_google_address': check ? check : 0,
+        "wcys_address_type" : addresstype
     };
     jQuery.post(
             ajax_object.ajax_url,
@@ -213,15 +246,34 @@ function saveLatLong(lat, lng, check = false) {
                     
                     jQuery('.order-total > td').html(response.total_cost);
 
-                    setTimeout(function ()
-                    {   
-                        if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
-                            initialize();
-                        }
-                        jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
-                    }, 1500);
+                    if( addresstype == "map"){
+                        setTimeout(function ()
+                        {   
+                            if (ajax_object.chosen_shipping_method == 'wcys_shipping') {
+                                initialize();
+                            }
+                            jQuery('body').find('#map-canvas').attr('style',"visibility:visible!important");
+                        }, 1500);
+                    }
                      
                 }
             }
     );
+}
+
+
+function checkSelection(type){
+    if( type == 'list'){
+        jQuery('.wcys_addresses_list').show();
+        jQuery('#wcys_google_address').hide();
+        jQuery('label[for=wcys_google_address]').hide()
+        jQuery('#map-canvas').hide();
+    }
+    else{
+        jQuery('#wcys_google_address').show();
+        jQuery('label[for=wcys_google_address]').show()
+        jQuery('#map-canvas').show();
+        jQuery('.wcys_addresses_list').hide();
+
+    }
 }

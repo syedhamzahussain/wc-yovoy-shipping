@@ -168,6 +168,10 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				update_post_meta( $order_id, '_wcys_delivery_reference', sanitize_text_field( $_POST['wcys_delivery_reference'] ) );
 			}
 
+			if ( isset( $_POST['wcys_shipping_type'] ) ) {
+				update_post_meta( $order_id, '_wcys_shipping_type', sanitize_text_field( $_POST['wcys_shipping_type'] ) );
+			}
+
 			if ( isset( $_POST['wcys_delivery_type'] ) ) {
 				if ( 'schedule' == strtolower( $_POST['wcys_delivery_type'] ) ) {
 					$date = $_POST['wcys_deliver_date'];
@@ -184,8 +188,12 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 		public function wcys_checkout_process() {
 
-			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) ) {
+			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) &&  $_POST['wcys_shipping_type'] == "map" ) {
 				wc_add_notice( __( "Please don't forget to enter delivery address.", 'wcys' ), 'error' );
+			}
+
+			if ( isset( $_POST['wcys_addresses_list'] ) && empty( $_POST['wcys_addresses_list'] ) &&  $_POST['wcys_shipping_type'] == "list" ) {
+				wc_add_notice( __( "Please don't forget to select the list from location", 'wcys' ), 'error' );
 			}
 
 			if ( isset( $_POST['wcys_delivery_type'] ) ) {
@@ -229,6 +237,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				WC()->session->set( 'wcys_delivery_longitude', $_POST['wcys_long'] );
 				WC()->session->set( 'wcys_google_address', $_POST['wcys_google_address'] );
 				WC()->session->set( 'wcys_vechicle', $_POST['wcys_vechicle'] );
+				WC()->session->set( 'wcys_address_type', $_POST['wcys_address_type'] );
 
 				global $woocommerce;
 				$cart       = $woocommerce->cart;
@@ -275,7 +284,23 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				// If the chosen shipping method is 'legacy_local_pickup' we display
 				if ( $chosen_method_id == $customer_carrier_method ) :
+					// get csv list
+					$file = fopen( WCYS_PLUGIN_DIR ."/asset/wc-yovoy-shipping.csv","r");
+					$count = 0;
+					$list_array = [0 => "Select From List"];
+					while (($line = fgetcsv($file)) !== FALSE) {
+					  	//$line is an array of the csv elements
+					  	if(! $count ){
+							$count++;
+							continue;
+					  	}
 
+					  	$list_array[ $line[2].'__' .$line[3]] = $line[1];
+					}
+					//echo "<pre>";print_r($list_array); die();
+					fclose($file);
+
+					// get vechicle
 					$option = get_option( 'wcys_vehicle', true );
 
 					$vehicle = array();
@@ -304,6 +329,22 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 					echo "<div class='desc_yovoy'>" . $yovoy_desc . '</div>';
 
+					woocommerce_form_field(
+						'wcys_shipping_type',
+						array(
+							'type'        => 'radio',
+							'required'    => 'true',
+							'input_class' => array( 'wcys_shipping_type' ),
+							'default'     => 'map', // $delivery_type,
+							'checked'     => 'checked',
+							'options'     => array(
+								'map'     => __( 'pin on map', 'wcys' ),
+								'list' => __( 'Select from list', 'wcys' ),
+							),
+						),
+						WC()->checkout->get_value( 'wcys_shipping_type' )
+					);
+
 					echo '<div class="custom-carrier">';
 					woocommerce_form_field(
 						'wcys_delivery_address',
@@ -324,6 +365,21 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					);
 
 					echo '<div id="map-canvas"></div>';
+					
+					woocommerce_form_field(
+						'wcys_addresses_list',
+						array(
+							'type'        => 'select',
+							'class'       => array( 'wcys_addresses_list' ),
+							'label'       => __( 'Select from list' ),
+							'required'    => true,
+							'placeholder' => __( '- Select From List -' ),
+							'options'     => $list_array,
+						),
+						WC()->checkout->get_value( 'wcys_addresses_list' )
+					);
+
+
 					woocommerce_form_field(
 						'wcys_delivery_reference',
 						array(
@@ -380,22 +436,11 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					echo '</div>';
 					?>
 					<script type="text/javascript">
+						// init map
 						initialize();
-						jQuery("[name='wcys_delivery_type']").change(function () {
-							if (jQuery(this).val().toLowerCase() == 'schedule') {
-								jQuery(".wcys_deliver_date").attr('type', 'text');
-								jQuery('.wcys_deliver_date').datepicker({
-									isRTL: true,
-									dateFormat: "yy/mm/dd 23:59:59",
-									changeMonth: true,
-									changeYear: true
 
-								});
-							} else {
-								jQuery(".wcys_deliver_date").attr('type', 'hidden');
-							}
-
-						})
+						// check selected map or list
+						checkSelection( jQuery( '.wcys_shipping_type' ).val() );
 					</script>
 					<?php
 
