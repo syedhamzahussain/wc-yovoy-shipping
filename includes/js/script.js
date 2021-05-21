@@ -80,7 +80,7 @@ jQuery(document).ready(function () {
         if (jQuery(this).val().toLowerCase() == 'schedule') {
             jQuery(".wcys_deliver_date").attr('type', 'text');
             jQuery('.wcys_deliver_date').datepicker({
-                isRTL: true,
+               // isRTL: true,
                 dateFormat: "yy/mm/dd 23:59:59",
                 changeMonth: true,
                 changeYear: true

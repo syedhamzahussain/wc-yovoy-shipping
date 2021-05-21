@@ -327,14 +327,14 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						$yovoy_desc = __( 'Please located your location on the map.', 'wcys' );
 					}
 
-					echo "<div class='desc_yovoy'>" . $yovoy_desc . '</div>';
-
+					echo "<div class='desc_yovoy'><p>" . $yovoy_desc . '</p></div>';
+					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_shipping_type',
 						array(
 							'type'        => 'radio',
 							'required'    => 'true',
-							'input_class' => array( 'wcys_shipping_type' ),
+							'input_class' => array( 'wcys_shipping_type form-control' ),
 							'default'     => 'map', // $delivery_type,
 							'checked'     => 'checked',
 							'options'     => array(
@@ -344,13 +344,14 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_shipping_type' )
 					);
-
+					echo "</div>";
 					echo '<div class="custom-carrier">';
+					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_delivery_address',
 						array(
 							'type'              => 'text',
-							'class'             => array( 'form-row-wide' ),
+							'class'             => array( 'form-row-wide form-control' ),
 							'id'                => 'wcys_google_address',
 							'label'             => 'Dirección de Envío :',
 							'required'          => true,
@@ -363,14 +364,16 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_delivery_address' )
 					);
-
+					echo "</div>";
+					echo "<div class='form-row'>";
 					echo '<div id="map-canvas"></div>';
-					
+					echo "</div>";
+					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_addresses_list',
 						array(
 							'type'        => 'select',
-							'class'       => array( 'wcys_addresses_list' ),
+							'class'       => array( 'wcys_addresses_list form-control' ),
 							'label'       => __( 'Select from list' ),
 							'required'    => true,
 							'placeholder' => __( '- Select From List -' ),
@@ -378,25 +381,27 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_addresses_list' )
 					);
-
+					echo "</div>";
+					echo "<div class='form-row'>";
 
 					woocommerce_form_field(
 						'wcys_delivery_reference',
 						array(
 							'type'        => 'text',
-							'input_class' => array( 'form-row-wide wcys_delivery_reference' ),
+							'input_class' => array( 'form-row-wide wcys_delivery_reference form-control' ),
 							'id'          => 'wcys_delivery_reference',
 							'required'    => true,
 							'placeholder' => 'Referencias para el repartidor',
 						),
 						WC()->checkout->get_value( 'wcys_delivery_reference' )
 					);
-
+					echo "</div>";
+					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_vehicle',
 						array(
 							'type'        => 'select',
-							'class'       => array( 'form-row-last' ),
+							'class'       => array( 'form-row-last  form-control' ),
 							'label'       => __( 'Tipo de Vehículo' ),
 							'required'    => true,
 							'placeholder' => __( '- Select Vehicle -' ),
@@ -404,13 +409,14 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_vehicle' )
 					);
-
+					echo "</div>";
+					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_delivery_type',
 						array(
 							'type'        => 'radio',
 							'required'    => 'true',
-							'input_class' => array( 'wcys_delivery_type' ),
+							'input_class' => array( 'wcys_delivery_type  form-control' ),
 							'default'     => 'asap', // $delivery_type,
 							'checked'     => 'checked',
 							'options'     => array(
@@ -420,24 +426,27 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_delivery_type' )
 					);
+					echo "</div>";
+					echo "<div class='form-row'>";
 
 					woocommerce_form_field(
 						'wcys_deliver_date',
 						array(
 							'type'        => 'hidden',
-							'input_class' => array( 'form-row-wide wcys_deliver_date' ),
+							'input_class' => array( 'form-row-wide wcys_deliver_date form-control' ),
 							'required'    => true,
 							'placeholder' => 'Choose Delivery Date',
 							'style'       => 'display:none',
 						),
 						WC()->checkout->get_value( 'wcys_deliver_date' )
 					);
-
+					echo "</div>";
 					echo '</div>';
 					?>
 					<script type="text/javascript">
 						// init map
 						initialize();
+						jQuery("#wcys_addresses_list").select2()
 
 						// check selected map or list
 						checkSelection( jQuery( '.wcys_shipping_type' ).val() );
@@ -482,7 +491,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				)
 			);
 
-			wp_enqueue_style( 'jquery-ui-datepicker-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
+			wp_enqueue_style( 'jquery-ui-datepicker-style', 'https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css' );
 			wp_enqueue_style( 'wcys-custom-css', WCYS_PLUGIN_URL . 'includes/css/custom.css' );
 			wp_enqueue_style( 'wcys-select2-css', WCYS_PLUGIN_URL . 'includes/css/select2.min.css' );
 		}
