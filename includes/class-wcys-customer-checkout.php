@@ -46,26 +46,26 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			add_action( 'woocommerce_checkout_process', array( $this, 'wcys_checkout_process' ) );
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'wcys_checkout_field_update_order_meta' ), 30, 1 );
 			add_action( 'woocommerce_thankyou', array( $this, 'wcys_shipping_thankyou' ) );
-			add_filter( 'woocommerce_checkout_fields', array( $this,'wcys_remove_fields'), 10,1 );
+			add_filter( 'woocommerce_checkout_fields', array( $this, 'wcys_remove_fields' ), 10, 1 );
 
 			WC()->session = new WC_Session_Handler();
 			WC()->session->init();
 		}
- 
+
 		public function wcys_remove_fields( $woo_checkout_fields_array ) {
 
 			$chosen_shipping_method = '';
 			if ( WC()->session->get( 'chosen_shipping_methods' ) ) {
 				$chosen_shipping_method = WC()->session->get( 'chosen_shipping_methods' )[0];
 			}
-		 
-		if ($chosen_shipping_method == 'wcys_shipping') {
-			unset( $woo_checkout_fields_array['billing']['billing_address_1'] );
-			unset( $woo_checkout_fields_array['billing']['billing_address_2'] );
-			unset( $woo_checkout_fields_array['billing']['billing_city'] );
-			unset( $woo_checkout_fields_array['billing']['billing_state'] ); // remove state field
-			unset( $woo_checkout_fields_array['billing']['billing_postcode'] ); // remove zip code field
-		}
+
+			if ( $chosen_shipping_method == 'wcys_shipping' ) {
+				unset( $woo_checkout_fields_array['billing']['billing_address_1'] );
+				unset( $woo_checkout_fields_array['billing']['billing_address_2'] );
+				unset( $woo_checkout_fields_array['billing']['billing_city'] );
+				unset( $woo_checkout_fields_array['billing']['billing_state'] ); // remove state field
+				unset( $woo_checkout_fields_array['billing']['billing_postcode'] ); // remove zip code field
+			}
 			return $woo_checkout_fields_array;
 		}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					'apiToken' => get_option( 'wcys_api' ),
 				);
 
-				if( 'cod' === $order->get_payment_method() ){
+				if ( 'cod' === $order->get_payment_method() ) {
 					$body['delivery']['cashOnDelivery'] = $order->get_total();
 				}
 
@@ -188,11 +188,11 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 		public function wcys_checkout_process() {
 
-			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) &&  $_POST['wcys_shipping_type'] == "map" ) {
+			if ( isset( $_POST['wcys_delivery_address'] ) && empty( $_POST['wcys_delivery_address'] ) && $_POST['wcys_shipping_type'] == 'map' ) {
 				wc_add_notice( __( "Please don't forget to enter delivery address.", 'wcys' ), 'error' );
 			}
 
-			if ( isset( $_POST['wcys_addresses_list'] ) && empty( $_POST['wcys_addresses_list'] ) &&  $_POST['wcys_shipping_type'] == "list" ) {
+			if ( isset( $_POST['wcys_addresses_list'] ) && empty( $_POST['wcys_addresses_list'] ) && $_POST['wcys_shipping_type'] == 'list' ) {
 				wc_add_notice( __( "Please don't forget to select the list from location", 'wcys' ), 'error' );
 			}
 
@@ -204,7 +204,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 			if ( isset( $_POST['wcys_delivery_reference'] ) && empty( $_POST['wcys_delivery_reference'] ) ) {
 
-					wc_add_notice( __( "Please provide a reference for your Delivery Agent.", 'wcys' ), 'error' );
+					wc_add_notice( __( 'Please provide a reference for your Delivery Agent.', 'wcys' ), 'error' );
 
 			}
 		}
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				if ( isset( $data->fare ) ) {
 					WC()->session->set( 'wcys_fare_price', $data->fare );
-					$cost = str_replace('<span class="woocommerce-Price-amount amount">','<span>',wc_price( $data->fare ) );
+					$cost = str_replace( '<span class="woocommerce-Price-amount amount">', '<span>', wc_price( $data->fare ) );
 				} else {
 					$cost = 0;
 				}
@@ -245,10 +245,10 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 				return wp_send_json(
 					array(
-						'status'     => 'success',
-						'data'       => $data,
-						'cost'       => $cost,
-						'total_cost' => wc_price( $total_cost ),
+						'status'        => 'success',
+						'data'          => $data,
+						'cost'          => $cost,
+						'total_cost'    => wc_price( $total_cost ),
 						'cost_formated' => wc_price( $data->fare ),
 					)
 				);
@@ -285,20 +285,20 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 				// If the chosen shipping method is 'legacy_local_pickup' we display
 				if ( $chosen_method_id == $customer_carrier_method ) :
 					// get csv list
-					$file = fopen( WCYS_PLUGIN_DIR ."/asset/wc-yovoy-shipping.csv","r");
-					$count = 0;
-					$list_array = [0 => "Select From List"];
-					while (($line = fgetcsv($file)) !== FALSE) {
-					  	//$line is an array of the csv elements
-					  	if(! $count ){
+					$file       = fopen( WCYS_PLUGIN_DIR . '/asset/wc-yovoy-shipping.csv', 'r' );
+					$count      = 0;
+					$list_array = array( 0 => 'Select From List' );
+					while ( ( $line = fgetcsv( $file ) ) !== false ) {
+						// $line is an array of the csv elements
+						if ( ! $count ) {
 							$count++;
 							continue;
-					  	}
+						}
 
-					  	$list_array[ $line[2].'__' .$line[3]] = $line[1];
+						$list_array[ $line[2] . '__' . $line[3] ] = $line[1];
 					}
-					//echo "<pre>";print_r($list_array); die();
-					fclose($file);
+					// echo "<pre>";print_r($list_array); die();
+					fclose( $file );
 
 					// get vechicle
 					$option = get_option( 'wcys_vehicle', true );
@@ -338,13 +338,13 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							'default'     => 'map', // $delivery_type,
 							'checked'     => 'checked',
 							'options'     => array(
-								'map'     => __( 'pin on map', 'wcys' ),
+								'map'  => __( 'pin on map', 'wcys' ),
 								'list' => __( 'Select from list', 'wcys' ),
 							),
 						),
 						WC()->checkout->get_value( 'wcys_shipping_type' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo '<div class="custom-carrier">';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
@@ -364,10 +364,10 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_delivery_address' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 					echo '<div id="map-canvas"></div>';
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_addresses_list',
@@ -381,7 +381,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_addresses_list' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 
 					woocommerce_form_field(
@@ -395,7 +395,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_delivery_reference' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_vehicle',
@@ -409,7 +409,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_vehicle' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_delivery_type',
@@ -426,7 +426,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_delivery_type' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo "<div class='form-row'>";
 
 					woocommerce_form_field(
@@ -440,7 +440,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						),
 						WC()->checkout->get_value( 'wcys_deliver_date' )
 					);
-					echo "</div>";
+					echo '</div>';
 					echo '</div>';
 					?>
 					<script type="text/javascript">
@@ -463,7 +463,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 			$current_method   = $shipping_methods;
 
 			$yovoy_title = __( 'YoVoy Shipping', 'wcys' );
-			if( isset($shipping_methods['wcys_shipping']) ){
+			if ( isset( $shipping_methods['wcys_shipping'] ) ) {
 				$yovoy_title = $shipping_methods['wcys_shipping']->title;
 			}
 
