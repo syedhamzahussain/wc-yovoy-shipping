@@ -14,3 +14,11 @@
 	float: left;
     width: 100%;}
 
+.yovoy_wrapper{
+	width: min-width:50px;
+	display: block;
+}
+
+.yovoy_wrapper .form-row{
+	display: block;
+}

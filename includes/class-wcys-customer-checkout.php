@@ -327,7 +327,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						$yovoy_desc = __( 'Please located your location on the map.', 'wcys' );
 					}
 
-					echo "<div class='desc_yovoy'><p>" . $yovoy_desc . '</p></div>';
+					echo "<div class='yovoy_wrapper'><div class='desc_yovoy'><p>" . $yovoy_desc . '</p></div>';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_shipping_type',
@@ -441,7 +441,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						WC()->checkout->get_value( 'wcys_deliver_date' )
 					);
 					echo '</div>';
-					echo '</div>';
+					echo '</div></div>';
 					?>
 					<script type="text/javascript">
 						// init map
