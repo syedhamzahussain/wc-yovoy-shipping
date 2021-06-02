@@ -1,96 +1,199 @@
-,NOMBRE DE COLONIA/BARRIO/RESIDENCIAL,Longitud,Latitud
-1,Sector Armenta (hasta las 5),15.572918,-88.034606
-2,Col. La Amistad,16.572918,-87.034606
-3,Col. Bermejo,17.572918,-86.034606
-4,Res. Bosques de San Pedro ,18.572918,-85.034606
-5,Res Bosques del Merendon,19.572918,-84.034606
-6,Col. Buenos Aires,20.572918,-83.034606
-7,Res. Bugambilia,21.572918,-82.034606
-8,"Res. Campisa I, II y III",22.572918,-81.034606
-9,Res. Casa Bella,23.572918,-80.034606
-10,Col. Bogran,24.572918,-79.034606
-11,"Res. Casa Maya i, II, III y IV",25.572918,-78.034606
-12,Res. Etasa,26.572918,-77.034606
-13,Col. Honduras (menos el bordo) ,27.572918,-76.034606
-14,Col. Jardines del Valle,28.572918,-75.034606
-15,Col. Prieto,29.572918,-74.034606
-16,Col. Los Laureles,30.572918,-73.034606
-17,Col. Los Medicos,31.572918,-72.034606
-18,Col. Santa Ana,32.572918,-71.034606
-19,Col. Seran,33.572918,-70.034606
-20,Col. Universidad,34.572918,-69.034606
-21,Res. Villas del Sol,35.572918,-68.034606
-22,Col. Zelaya ,36.572918,-67.034606
-23,Col. Colombia,37.572918,-66.034606
-24,Col. Colvisula,38.572918,-65.034606
-25,Col. Country,39.572918,-64.034606
-26,Col. Covimal,40.572918,-63.034606
-27,Res. El Barrial ,41.572918,-62.034606
-28,Res. El Doral,42.572918,-61.034606
-29,Sector Palenque,43.572918,-60.034606
-30,Res. El Pedregal,44.572918,-59.034606
-31,Col. El Playon,45.572918,-58.034606
-32,Col. El Roble I y II,46.572918,-57.034606
-33,Col. Fesitranh,47.572918,-56.034606
-34,Haciendas Campisa,48.572918,-55.034606
-35,Hospital Mario Catarino Rivas,49.572918,-54.034606
-36,Res. Jardines del Merendon,50.572918,-53.034606
-37,Col. Juan Ramon Molina,51.572918,-52.034606
-38,Col. Tara,52.572918,-51.034606
-39,Col. Stibys,53.572918,-50.034606
-40,Sector Unitec (bulevard del Norte),54.572918,-49.034606
-41,Sector UTH (carretera a Armenta),55.572918,-48.034606
-42,Res. Valle del Sol,56.572918,-47.034606
-43,Res. Valle Encantado,57.572918,-46.034606
-44,Res. Veranda,58.572918,-45.034606
-45,Res. Villa Alta,59.572918,-44.034606
-46,Res. Villa Napoli,60.572918,-43.034606
-47,Res. Villa San Antonio,61.572918,-42.034606
-48,Res. Villa Regina,62.572918,-41.034606
-49,Res. Las Anonas,63.572918,-40.034606
-50,Res. Las Fuentes,64.572918,-39.034606
-51,San Jose del Pedregal,65.572918,-38.034606
-52,Res. El Potosi,66.572918,-37.034606
-53,Res. Los Alamos,67.572918,-36.034606
-54,Col.Los Alpes,68.572918,-35.034606
-55,Col. Los Castanos,69.572918,-34.034606
-56,Res. Cedritos,70.572918,-33.034606
-57,Res. Los Cedros,71.572918,-32.034606
-58,Res. Los Establos,72.572918,-31.034606
-59,Res. Los Molinos,73.572918,-30.034606
-60,Col. Mazzarelo,74.572918,-29.034606
-61,Merendon Hills,75.572918,-28.034606
-62,Res. Montserrat,76.572918,-27.034606
-63,Sector Molino Harinero Sula,77.572918,-26.034606
-64,Res. Paseo Real,78.572918,-25.034606
-65,Res. Porto Fino,79.572918,-24.034606
-66,Res. Puerta del Sol,80.572918,-23.034606
-67,Sector Rancho El Coco,81.572918,-22.034606
-68,Res. Rancho Tara,82.572918,-21.034606
-69,Res. Portal,83.572918,-20.034606
-70,Res. Foresta,84.572918,-19.034606
-71,Res. Las Mercedes,85.572918,-18.034606
-72,Res. Nova,86.572918,-17.034606
-73,Res. Santa Monica,87.572918,-16.034606
-74,Res. Villa Real,88.572918,-15.034606
-75,Res. Villas del Bosque,89.572918,-14.034606
-76,Col. Rio Blanco,90.572918,-13.034606
-77,Bo. San Cristobal,91.572918,-12.034606
-78,Col. Villa Florencia ,92.572918,-11.034606
-79,Res. Guadalupe,93.572918,-10.034606
-80,Bo. Guadalupe,94.572918,-9.034606
-81,Bo. Las Flores,95.572918,-8.034606
-82,Sitraihss,96.572918,-7.034606
-83,Sitralus,97.572918,-6.034606
-84,Sitraplash,98.572918,-5.034606
-85,Sitratelh,99.572918,-4.034606
-86,sitraunah,100.572918,-3.034606
-87,Sector Cerveceria Hondurena,101.572918,-2.034606
-88,Res. Villas Paraiso,102.572918,-1.034606
-89,Res. Villas Monaco,103.572918,-0.034606
-90,Res. Villa Mayorca,104.572918,0.965394
-91,Res. Villas Matilde,105.572918,1.965394
-92,Res. Villas Mackey,106.572918,2.965394
-93,Res. Villas Mabel,107.572918,3.965394
-94,Res. Villa Espanola,108.572918,4.965394
-95,Res. Villa Espanola,109.572918,5.965394
+﻿Zone Name,Longitude,Latitude
+Sector Armenta (hasta las 5),15.572918,-88.034606
+Col. La Amistad,15.544675,-88.022819
+Col. Bermejo,15.531867,-88.022832
+Res. Bosques de San Pedro ,15.548512,-87.984477
+Res Bosques del Merendon,15.545624,-88.039448
+Col. Buenos Aires,15.536205,-88.0117
+Res. Bugambilia,15.544874,-88.032463
+"Res. Campisa I, II y III",15.540531,-87.998249
+Res. Casa Bella,15.54897,-88.024204
+Col. Bogran,15.532792,-88.01111
+"Res. Casa Maya i, II, III y IV",15.556755,-88.028978
+Res. Etasa,15.56561,-88.029715
+Col. Honduras (menos el bordo) ,15.514579,-88.009921
+Col. Jardines del Valle,15.535709,-88.027825
+Col. Prieto,15.554755,-88.003915
+Col. Los Laureles,15.527487,-88.0332
+Col. Los Medicos,15.548074,-88.026037
+Col. Santa Ana,15.51535,-88.038852
+Col. Seran,15.549239,-88.021959
+Col. Universidad,15.526524,-88.027476
+Res. Villas del Sol,15.535172,-88.033523
+Col. Colombia,15.520079,-88.02888
+Col. Colvisula,15.547431,-88.014354
+Col. Country,15.523055,-88.033602
+Col. Covimal,15.543915,-88.002062
+Res. El Barrial ,15.558223,-88.024136
+Res. El Doral,15.553206,-88.028824
+Sector Palenque,15.538037,-88.016584
+Res. El Pedregal,15.530693,-88.043057
+Col. El Playon,15.523482,-88.033241
+Col. El Roble I y II,15.542773,-88.009112
+Col. Fesitranh,15.561392,-87.991827
+Haciendas Campisa,15.538109,-87.995194
+Hospital Mario Catarino Rivas,15.52435,-88.041451
+Res. Jardines del Merendon,15.566155,-88.029763
+Col. Juan Ramon Molina,15.554806,-87.991447
+Col. Tara,15.545745,-88.017268
+Col. Stibys,15.542698,-88.027507
+Sector Unitec (bulevard del Norte),15.563694,-88.022388
+Sector UTH (carretera a Armenta),15.551265,-88.011552
+Res. Valle del Sol,15.536723,-88.033443
+Res. Valle Encantado,15.55318,-88.030145
+Res. Veranda,15.546481,-88.034099
+Res. Villa Alta,15.551386,-88.0355
+Res. Villa Napoli,15.543652,-88.024468
+Res. Villa San Antonio,15.560955,-88.028862
+Res. Villa Regina,15.547136,-87.99848
+Res. Las Anonas,15.535587,-88.010937
+Residencial Paseo La Fuente,15.52547,-87.97897
+San Jose del Pedregal,15.533556,-88.037123
+Res. El Potosi,15.533453,-88.037059
+Res. Los Alamos,15.552368,-88.017229
+Col.Los Alpes,15.544188,-88.031275
+Col. Los Castaños,15.548449,-88.001471
+Res. Cedritos,15.553859,-88.031131
+Res. Los Cedros,15.551302,-88.033587
+Res. Los Molinos,15.545946,-88.004599
+Merendon Hills,15.552303,-88.039008
+Res. Montserrat,15.519112,-87.982641
+Sector Molino Harinero Sula,15.529061,-88.017514
+Res. Paseo Real,"15.542351,",-88.019803
+Res. Porto Fino,15.547252,-88.031634
+Res. Puerta del Sol,15.554596,-88.031899
+Sector Rancho El Coco,15.544204,-88.039796
+Res. Rancho Tara,15.544843,-87.993766
+Res. Portal,15.551462,-88.029981
+Res. Foresta,15.548031,-88.034559
+Res. Las Mercedes,15.557993,-87.997945
+Res. Nova,15.564409,-88.028539
+Res. Santa Monica,15.563229,-88.001141
+Res. Villa Real,15.555687,-88.030657
+Res. Villas del Bosque,15.549141,-87.982286
+Col. Rio Blanco,15.551255,-88.007548
+Bo. San Cristobal,15.518895,-88.013679
+Col. Villa Florencia ,15.520875,-88.010713
+Barrio Guadalupe,15.525767,-88.020628
+Bo. Guadalupe,15.525687,-88.020073
+Bo. Las Flores,15.51979,-88.020669
+Sitraihss,15.550318,-88.023516
+Sitralus,15.547862,-88.026398
+Sitraplash,15.546981,-88.029218
+Sitratelh,15.548366,-88.027909
+sitraunah,15.546077,-88.026125
+Sector Cerveceria Hondureña,15.521731,-88.020936
+Res. Villas Paraiso,15.516446,-87.987102
+Res. Villas Monaco,15.537575,-88.03342
+Res. Villa Mayorca,15.515841,-87.987457
+Res. Villas Matilde,15.55506,-88.0159
+Res. Villas Mackey,15.556333,-88.032881
+Res. Villas Mabel,15.566287,-88.030778
+Res. Villa Española,15.547519,-88.035202
+Res. Villas del Campo,15.541843,-88.00113
+Residencial Torremolino,15.537575,-88.03342
+Residencial Fontabella,15.553436,-88.029006
+Residencial Miravalle,15.5343,-88.008376
+Residencial Los Jicaros,15.505603,-87.974408
+Residencial Santa Isabel,15.502866,-87.986226
+Bo. Morazan,15.512362,-88.00544
+Res. Florida,15.511384,-88.002039
+Col. Ideal,15.506727,-88.006395
+Res. El Limonar,15.509897,-87.989724
+Res. Los Naranjos,"15.507833,",-87.984769
+Col. Modelo,15.515872,-88.007687
+Res. Salamanca,15.517315,-87.98404
+Res. Villas Valencia,15.460826,-87.954395
+Col. Tepeaca,15.501484,-88.009081
+Bo. El Hipodromo,15.499399,-88.0096
+Col. Aurora,15.497019,-88.007553
+Bo. Cabañas,15.488619,-88.011957
+Bo. Cabañitas,15.488738,-88.014891
+Col. San Jose de Sula,15.495515,-88.001765
+Col. Islas del Progreso,15.477708,-88.017637
+Col. San Carlos de Sula,15.489987,-87.999569
+Col. San Roberto de Sula ,15.486169,-88.003256
+Col. Luisiana,15.474407,-87.999705
+Col. Valle de Sula I y II,15.474617,-88.00982
+Col. San Jose V ( no entramos a la colonia),15.473079,-88.022547
+Col. Guillen ,15.469874,-87.999292
+Res. Brisas del Merendon,15.463742,-87.982994
+Col. Municipal,15.469207,-87.978149
+Res. Villas Asturias,15.466182,-87.971993
+Col. Del Valle,15.472182,-87.972151
+Res. Quintas del Dorado,15.473228,-87.960537
+Col. Calpules,15.476817,-87.97898
+Col. San Vicente de Paul,15.480379,-87.967985
+Arenales,15.478447,-87.972338
+Col. Felipe Zelaya ,15.476355,-87.951955
+"Col. Satelite I, II, III, IV y V",15.490951,-87.987941
+Bulevard Las Torres (sector satelite),15.483442,-87.983242
+Col. Lomas de San Juan,15.498307,-87.977219
+Col. Villa Olimpica,15.466983,-87.999734
+Sector Polvorin,15.46864,-87.98692
+Sector El Baron,15.506058,-88.001106
+Col. Saturno,15.492841,-87.993937
+"Res, Costa Verde Villa I",15.487234,-87.997535
+Res. Costa Verde Villa II,15.486967,-87.994553
+"Res. Costas del Sol I, II y III",15.487455,-87.995271
+Sector Gildan,15.47992,-88.007432
+Sector Zip San Jose,15.481914,-88.007027
+Sector Central de Abastos,15.477902,-87.994431
+Col. Smith,15.507002,-88.016367
+Bo. La Granja,15.508913,-88.016268
+Col. Las Vegas,15.512153,-88.005736
+Col. San Fernando,15.504495,-88.011082
+Res. Valle Escondido,15.454492,-87.965232
+Colonia Rivera Hernandez,15.471856,-87.946712
+Colonia Planeta,15.457134,-87.946018
+Miguel Angel Pavón,15.462646,-87.982281
+Reparto Lempira,15.478094,-87.986187
+Colonia San Sebastian,15.478854,-87.977314
+Colonia Independencia,15.453665,-87.946951
+Santa Martha,15.503693,-87.981058
+Colonia El Carmen ,15.508893,-87.992849
+Aldea El Carmen,15.525299,-87.963355
+Colonia Alameda,15.50593,-87.98427
+Residencial Toledo,15.509331,-87.984127
+Bo. Las Acacias,15.510496,-88.021399
+Bo. Barandillas,15.512522,-88.014961
+Bo. El Centro,15.505627,-88.024903
+Bo. Concepcion,15.502048,-88.020147
+Bo. El Benque,15.499977,-88.030411
+Bo. Guamilito,15.510268,-88.02731
+Bo. La Guardia,15.479945,-88.029467
+Col. La Paz,15.481464,-88.023952
+Bo. Las Palmas,15.486993,-88.021933
+Bo. Lempira,15.497376,-88.02141
+Bo. Los Andes,15.510403,-88.033104
+Bo. Medina,15.493025,-88.022112
+Bo. Paz Barahona,15.495701,-88.031802
+Col. Prado Alto,15.486257,-88.031205
+Bo. Rio de Piedras,15.50236,-88.041698
+Bo. San Luis,15.481416,-88.024681
+Bo. Suyapa,15.50069,-88.035727
+Sector Campo Agas (entregas en el bulevar del sur),15.452302,-88.023218
+Col. Altamira,15.486236,-88.043559
+Col. Altiplano,15.483646,-88.03835
+Col. Bella Vista,15.512008,-88.051759
+Col. Dubon,15.500685,-88.048725
+Col. El Prado,15.48894,-88.0279
+Col. Figueroa,15.494171,-88.049337
+Col. Hernandez,15.490189,-88.033143
+Col. Juan Lindo,15.516195,-88.045685
+Col. La  Mora,15.512708,-88.040636
+Col. La Union,15.479293,-88.02318
+Col. Las Mesetas,15.491654,-88.04232
+Col. Los Arcos,15.490857,-88.038259
+Col. Moderna,15.509406,-88.041787
+Col. Orquidea Blanca,15.515341,-88.034089
+Col. Trejo,15.495625,-88.0435
+Col. Villa Eugenia,15.491835,-88.036897
+Col. Zeron,15.51736,-88.037159
+Sector Honducafe,15.463806,-88.031676
+Primavera,15.486681,-88.044289
+Montefresco,15.486427,-88.017697
+Continental,15.518911,-88.049304
+Valle Azul,15.526799,-88.04343
+Colonia El Chamelecón,15.504665,-88.047448
+Col. Mazzarelo,15.518956,-88.034846

@@ -295,7 +295,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							continue;
 						}
 
-						$list_array[ $line[2] . '__' . $line[3] ] = $line[1];
+						$list_array[ $line[2] . '__' . $line[1] ] = $line[0];
 					}
 					// echo "<pre>";print_r($list_array); die();
 					fclose( $file );
