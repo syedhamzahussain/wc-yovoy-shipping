@@ -22,3 +22,58 @@
 .yovoy_wrapper .form-row{
 	display: block;
 }
+
+span.woocommerce-input-wrapper input {
+    width: 15px !important;
+    float: left;
+    margin: 7px 10px 0px 0px !important;
+    text-align: left;
+}
+
+.woocommerce-input-wrapper label {
+    width: 70%;
+    font-size: 16px;
+}
+
+p#wcys_delivery_type_field {
+    margin-top: 10px;
+}
+
+input#wcys_google_address {
+    width: 100% !important;
+}
+
+input#wcys_delivery_reference {
+    width: 100% !important;
+}
+
+
+input#wcys_deliver_date {
+    width: 100% !important;
+}
+
+@media (max-width:767px){
+	p.woocommerce-shipping-destination {
+    text-align: left;
+    padding-top: 20px;
+	}
+
+	form.woocommerce-shipping-calculator {
+			text-align: left;
+	}
+	
+	table.shop_table_responsive tr td {
+    display: block;
+    text-align: left !important;
+    clear: both;
+	}
+	
+	ul#shipping_method {
+    text-align: left;
+    margin-top: 40px;
+	}
+	
+	#map-canvas{
+		width:100% !important;
+	}
+}
