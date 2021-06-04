@@ -287,7 +287,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					// get csv list
 					$file       = fopen( WCYS_PLUGIN_DIR . '/asset/wc-yovoy-shipping.csv', 'r' );
 					$count      = 0;
-					$list_array = array( 0 => 'Select From List' );
+					$list_array = array( 0 => '' );
 					while ( ( $line = fgetcsv( $file ) ) !== false ) {
 						// $line is an array of the csv elements
 						if ( ! $count ) {
@@ -297,7 +297,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 
 						$list_array[ $line[2] . '__' . $line[1] ] = $line[0];
 					}
-					// echo "<pre>";print_r($list_array); die();
+					
 					fclose( $file );
 
 					// get vechicle
@@ -324,7 +324,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 					if ( $yovoy_desc && isset( $yovoy_desc['description'] ) ) {
 						$yovoy_desc = $yovoy_desc['description'];
 					} else {
-						$yovoy_desc = __( 'Please located your location on the map.', 'wcys' );
+						$yovoy_desc = __( 'Ubicación de Entrega.', 'wcys' );
 					}
 
 					echo "<div class='yovoy_wrapper'><div class='desc_yovoy'><p>" . $yovoy_desc . '</p></div>';
@@ -338,8 +338,8 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							'default'     => 'map', // $delivery_type,
 							'checked'     => 'checked',
 							'options'     => array(
-								'map'  => __( 'pin on map', 'wcys' ),
-								'list' => __( 'Select from list', 'wcys' ),
+								'map'  => __( 'Ubicar en el Mapa', 'wcys' ),
+								'list' => __( 'Seleccionar de Lista de Zonas (Válido para SPS)', 'wcys' ),
 							),
 						),
 						WC()->checkout->get_value( 'wcys_shipping_type' )
@@ -374,7 +374,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						array(
 							'type'        => 'select',
 							'class'       => array( 'wcys_addresses_list form-control' ),
-							'label'       => __( 'Select from list' ),
+							'label'       => __( 'Elige tu Residencial, Barrio o Colonia' ),
 							'required'    => true,
 							'placeholder' => __( '- Select From List -' ),
 							'options'     => $list_array,

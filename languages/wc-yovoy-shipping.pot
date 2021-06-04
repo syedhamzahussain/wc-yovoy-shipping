@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-25 13:59+0500\n"
+"POT-Creation-Date: 2021-06-05 01:01+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,18 +62,19 @@ msgid "Mini-camión"
 msgstr ""
 
 #: includes/class-wcys-customer-checkout.php:327
-#: includes/class-wcys-shipping-method.php:15
-#: includes/class-wcys-shipping-method.php:63
-msgid "Please located your location on the map."
+msgid "Ubicación de Entrega."
 msgstr ""
 
 #: includes/class-wcys-customer-checkout.php:341
-msgid "pin on map"
+msgid "Ubicar en el Mapa"
 msgstr ""
 
 #: includes/class-wcys-customer-checkout.php:342
+msgid "Seleccionar de Lista de Zonas (Válido para SPS)"
+msgstr ""
+
 #: includes/class-wcys-customer-checkout.php:377
-msgid "Select from list"
+msgid "Elige tu Residencial, Barrio o Colonia"
 msgstr ""
 
 #: includes/class-wcys-customer-checkout.php:379
@@ -145,6 +146,11 @@ msgstr ""
 
 #: includes/class-wcys-setting.php:182
 msgid "Vehicle Types "
+msgstr ""
+
+#: includes/class-wcys-shipping-method.php:15
+#: includes/class-wcys-shipping-method.php:63
+msgid "Please located your location on the map."
 msgstr ""
 
 #: includes/class-wcys-shipping-method.php:48
