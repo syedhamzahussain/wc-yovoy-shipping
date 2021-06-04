@@ -23,57 +23,64 @@
 	display: block;
 }
 
-span.woocommerce-input-wrapper input {
-    width: 15px !important;
-    float: left;
-    margin: 7px 10px 0px 0px !important;
-    text-align: left;
+.yovoy_wrapper{
+    float:left !important;
 }
 
-.woocommerce-input-wrapper label {
-    width: 70%;
-    font-size: 16px;
+.yovoy_wrapper .desc_yovoy {
+    text-align: left !important;
+}
+
+.yovoy_wrapper .form-row {
+    text-align: left !important;
+}
+
+.yovoy_wrapper .form-row p {
+    text-align: left !important;
+}
+
+.yovoy_wrapper .form-row p span.woocommerce-input-wrapper input {
+    float: left !important;
+}
+
+.yovoy_wrapper .form-row p span.woocommerce-input-wrapper label.radio {
+    float: left !important;
+    width: 85% !important;
+}
+
+.yovoy_wrapper .custom-carrier {
+    text-align: left !important;
 }
 
 p#wcys_delivery_type_field {
-    margin-top: 10px;
-}
-
-input#wcys_google_address {
-    width: 100% !important;
-}
-
-input#wcys_delivery_reference {
-    width: 100% !important;
+    margin-top: 50px;
 }
 
 
-input#wcys_deliver_date {
-    width: 100% !important;
-}
-
-@media (max-width:767px){
-	p.woocommerce-shipping-destination {
+.yovoy_wrapper span.woocommerce-input-wrapper input {
+    width: 8% !important;
+    float: left;
+    margin: 7px 10px 0px 0px !important;
     text-align: left;
-    padding-top: 20px;
-	}
+    height:15px !important;
+}
 
-	form.woocommerce-shipping-calculator {
-			text-align: left;
-	}
-	
-	table.shop_table_responsive tr td {
-    display: block;
-    text-align: left !important;
-    clear: both;
-	}
-	
-	ul#shipping_method {
-    text-align: left;
-    margin-top: 40px;
-	}
-	
-	#map-canvas{
-		width:100% !important;
-	}
+.woocommerce-input-wrapper label {
+    width: 80%;
+    font-size: 16px;
+}
+
+.yovoy_wrapper input#wcys_google_address {
+    width: 100% !important;
+    min-height: 34px!important;
+}
+
+.yovoy_wrapper input#wcys_delivery_reference {
+    width: 100% !important;
+    min-height: 34px!important;
+}
+
+.yovoy_wrapper input#wcys_deliver_date {
+    width: 100% !important;
+    min-height: 34px!important;
 }
