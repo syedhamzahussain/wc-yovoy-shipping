@@ -295,7 +295,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 							continue;
 						}
 
-						$list_array[ $line[2] . '__' . $line[1] ] = $line[0];
+						$list_array[ $line[1] . '__' . $line[2] ] = $line[0];
 					}
 					
 					fclose( $file );
@@ -327,7 +327,7 @@ if ( ! class_exists( 'WCYS_Customer_Checkout' ) ) {
 						$yovoy_desc = __( 'Ubicación de Entrega.', 'wcys' );
 					}
 
-					echo "<div class='yovoy_wrapper'><div class='desc_yovoy'><p>" . $yovoy_desc . '</p></div>';
+					echo "<div class='yovoy_wrapper'><div class='desc_yovoy'><p><b>" . $yovoy_desc . '</b></p></div>';
 					echo "<div class='form-row'>";
 					woocommerce_form_field(
 						'wcys_shipping_type',

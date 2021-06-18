@@ -84,3 +84,7 @@ p#wcys_delivery_type_field {
     width: 100% !important;
     min-height: 34px!important;
 }
+
+label[for=wcys_shipping_type_map],label[for=wcys_shipping_type_list],label[for=wcys_addresses_list],label[for=wcys_vehicle],label[for=wcys_google_address] {
+    font-weight: 600;
+}
